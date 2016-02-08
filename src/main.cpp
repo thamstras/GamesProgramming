@@ -16,6 +16,7 @@
 #endif
 
 #include "AnimatedSprite.h"
+#include "TextRenderer.h"
 
 std::string exeName;
 SDL_Window *win; //pointer to the SDL_Window
@@ -29,6 +30,8 @@ SDL_Rect message_rect; //SDL_rect for the message
 
 AnimatedSprite* logo;
 AnimatedSprite* theSprite;
+
+TextRenderer* text;
 
 bool done = false;
 
@@ -73,7 +76,6 @@ void initThings()
 
 void initTextures()
 {
-	//
 	std::string imagePath = "./assets/p1_spritesheet.png";
 	surface = IMG_Load(imagePath.c_str());
 	if (surface == nullptr) {
@@ -110,7 +112,7 @@ void initText()
 		std::cout << "TTF_Init Failed: " << TTF_GetError() << std::endl;
 		cleanExit(1);
 	}
-
+	/*
 	TTF_Font* sans = TTF_OpenFont("./assets/Hack-Regular.ttf", 96);
 	if (sans == nullptr)
 	{
@@ -123,7 +125,12 @@ void initText()
 	message_rect.x = 0;
 	message_rect.y = 0;
 	message_rect.w = 300;
-	message_rect.h = 100;
+	message_rect.h = 100;*/
+	text = new TextRenderer("./assets/Hack-Regular.ttf", 96, "Hello, World!", ren);
+	text->setScale(0.4f);
+	text->moveString(0, 0);
+
+
 }
 
 void initSprites()
@@ -216,9 +223,9 @@ void render()
 		//SDL_RenderCopy(ren, tex, NULL, NULL);
 		logo->render(ren);
 		theSprite->render(ren);
-
+		text->render(ren);
 		//Draw the text
-		SDL_RenderCopy(ren, messageTexture, NULL, &message_rect);
+		//SDL_RenderCopy(ren, messageTexture, NULL, &message_rect);
 
 		//Update the screen
 		SDL_RenderPresent(ren);
