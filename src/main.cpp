@@ -153,6 +153,7 @@ void initSprites()
 	int f = logo->createAnimFrame(0, 0, 2000, 876);
 	int af[] = { f };
 	int a = logo->createAnim(af, 1);
+	logo->scaleSprite(0.25, 0.25);
 	logo->setFrameRate(10);
 	logo->playAnim(a);
 }

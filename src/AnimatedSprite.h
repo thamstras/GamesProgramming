@@ -27,12 +27,15 @@ public:
 	void setFrameRate(int frameRate);
 	void playAnim(int amim);
 	void moveSprite(int x, int y);
+	void scaleSprite(float xScale, float yScale);
 
 private:
 	
 
 	int _x;
 	int _y;
+	float _scaleX;
+	float _scaleY;
 	int _frameRate;
 	SDL_Texture *_tex;
 	std::vector<SDL_Rect> _frameList;

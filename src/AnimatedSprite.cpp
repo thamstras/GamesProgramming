@@ -10,6 +10,9 @@ AnimatedSprite::AnimatedSprite(SDL_Texture* tex)
 	_x = 10;
 	_y = 10;
 
+	_scaleX = 1.0f;
+	_scaleY = 1.0f;
+
 }
 
 AnimatedSprite::AnimatedSprite(const AnimatedSprite& other)
@@ -67,8 +70,8 @@ void AnimatedSprite::render(SDL_Renderer *renderer)
 	SDL_Rect destRect;
 	destRect.x = _x;
 	destRect.y = _y;
-	destRect.w = _currFrameRect.w;
-	destRect.h = _currFrameRect.h;
+	destRect.w = _currFrameRect.w * _scaleX;
+	destRect.h = _currFrameRect.h * _scaleY;
 	SDL_RenderCopy(renderer, _tex, &_currFrameRect, &destRect);
 }
 
@@ -107,4 +110,10 @@ void AnimatedSprite::moveSprite(int x, int y)
 {
 	this->_x = x;
 	this->_y = y;
+}
+
+void AnimatedSprite::scaleSprite(float xScale, float yScale)
+{
+	this->_scaleX = xScale;
+	this->_scaleY = yScale;
 }
