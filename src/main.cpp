@@ -26,6 +26,74 @@ SDL_Rect message_rect; //SDL_rect for the message
 
 bool done = false;
 
+void initThings()
+{
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+	{
+		std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+		cleanExit(1);
+	}
+	std::cout << "SDL initialised OK!\n";
+
+	//create window
+	win = SDL_CreateWindow("SDL Hello World!", 100, 100, 600, 600, SDL_WINDOW_SHOWN);
+
+	//error handling
+	if (win == nullptr)
+	{
+		std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
+		cleanExit(1);
+	}
+	std::cout << "SDL CreatedWindow OK!\n";
+
+	ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (ren == nullptr)
+	{
+		std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
+		cleanExit(1);
+	}
+}
+
+void initTextures()
+{
+	std::string imagePath = "./assets/Opengl-logo.svg.png";
+	surface = IMG_Load(imagePath.c_str());
+	if (surface == nullptr) {
+		std::cout << "SDL IMG_Load Error: " << SDL_GetError() << std::endl;
+		cleanExit(1);
+	}
+
+	tex = SDL_CreateTextureFromSurface(ren, surface);
+	SDL_FreeSurface(surface);
+	if (tex == nullptr) {
+		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+		cleanExit(1);
+	}
+}
+
+void initText()
+{
+	if (TTF_Init() == -1)
+	{
+		std::cout << "TTF_Init Failed: " << TTF_GetError() << std::endl;
+		cleanExit(1);
+	}
+
+	TTF_Font* sans = TTF_OpenFont("./assets/Hack-Regular.ttf", 96);
+	if (sans == nullptr)
+	{
+		std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
+		cleanExit(1);
+	}
+	SDL_Color White = { 255, 255, 255 };
+	messageSurface = TTF_RenderText_Solid(sans, "Hello World!", White);
+	messageTexture = SDL_CreateTextureFromSurface(ren, messageSurface);
+	message_rect.x = 0;
+	message_rect.y = 0;
+	message_rect.w = 300;
+	message_rect.h = 100;
+}
+
 void handleInput()
 {
 	//Event-based input handling
@@ -102,65 +170,9 @@ void cleanExit(int returnValue)
 // based on http://www.willusher.io/sdl2%20tutorials/2013/08/17/lesson-1-hello-world/
 int main( int argc, char* args[] )
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-	{
-		std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-		cleanExit(1);
-	}
-	std::cout << "SDL initialised OK!\n";
-
-	//create window
-	win = SDL_CreateWindow("SDL Hello World!", 100, 100, 600, 600, SDL_WINDOW_SHOWN);
-
-	//error handling
-	if (win == nullptr)
-	{
-		std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-		cleanExit(1);
-	}
-	std::cout << "SDL CreatedWindow OK!\n";
-
-	ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (ren == nullptr)
-	{
-		std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-		cleanExit(1);
-	}
-
-	std::string imagePath = "./assets/Opengl-logo.svg.png";
-	surface = IMG_Load(imagePath.c_str());
-	if (surface == nullptr){
-		std::cout << "SDL IMG_Load Error: " << SDL_GetError() << std::endl;
-		cleanExit(1);
-	}
-
-	tex = SDL_CreateTextureFromSurface(ren, surface);
-	SDL_FreeSurface(surface);
-	if (tex == nullptr){
-		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-		cleanExit(1);
-	}
-
-
-	if( TTF_Init() == -1 )
-	{
-		std::cout << "TTF_Init Failed: " << TTF_GetError() << std::endl;
-		cleanExit(1);
-	}
-
-	TTF_Font* sans = TTF_OpenFont("./assets/Hack-Regular.ttf", 96);
-	if (sans == nullptr)
-	{
-		std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
-		cleanExit(1);
-	}
-	SDL_Color White = {255, 255, 255};
-	messageSurface = TTF_RenderText_Solid(sans, "Hello World!", White);
-	messageTexture = SDL_CreateTextureFromSurface(ren, messageSurface);
-	message_rect.x = 0;
-	message_rect.y = 0;
-	message_rect.w = 300;
-	message_rect.h = 100;
+	initThings();
+	initTextures();
+	initText();
 
 	while (!done) //loop until done flag is set)
 	{
