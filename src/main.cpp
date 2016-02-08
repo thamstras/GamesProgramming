@@ -15,16 +15,33 @@
 #include <SDL2/SDL_ttf.h>
 #endif
 
+#include "AnimatedSprite.h"
+
 std::string exeName;
 SDL_Window *win; //pointer to the SDL_Window
 SDL_Renderer *ren; //pointer to the SDL_Renderer
 SDL_Surface *surface; //pointer to the SDL_Surface
 SDL_Texture *tex; //pointer to the SDL_Texture
+SDL_Texture *tex2;
 SDL_Surface *messageSurface; //pointer to the SDL_Surface for message
 SDL_Texture *messageTexture; //pointer to the SDL_Texture for message
 SDL_Rect message_rect; //SDL_rect for the message
 
+AnimatedSprite* logo;
+AnimatedSprite* theSprite;
+
 bool done = false;
+
+void cleanExit(int returnValue)
+{
+	if (messageTexture != nullptr) SDL_DestroyTexture(messageTexture);
+	if (tex != nullptr) SDL_DestroyTexture(tex);
+	if (ren != nullptr) SDL_DestroyRenderer(ren);
+	if (win != nullptr) SDL_DestroyWindow(win);
+	if (theSprite != nullptr) delete theSprite;
+	SDL_Quit();
+	exit(returnValue);
+}
 
 void initThings()
 {
@@ -56,7 +73,8 @@ void initThings()
 
 void initTextures()
 {
-	std::string imagePath = "./assets/Opengl-logo.svg.png";
+	//
+	std::string imagePath = "./assets/p1_spritesheet.png";
 	surface = IMG_Load(imagePath.c_str());
 	if (surface == nullptr) {
 		std::cout << "SDL IMG_Load Error: " << SDL_GetError() << std::endl;
@@ -64,6 +82,20 @@ void initTextures()
 	}
 
 	tex = SDL_CreateTextureFromSurface(ren, surface);
+	SDL_FreeSurface(surface);
+	if (tex == nullptr) {
+		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+		cleanExit(1);
+	}
+
+	std::string imagePath2 = "./assets/Opengl-logo.svg.png";
+	surface = IMG_Load(imagePath2.c_str());
+	if (surface == nullptr) {
+		std::cout << "SDL IMG_Load Error: " << SDL_GetError() << std::endl;
+		cleanExit(1);
+	}
+
+	tex2 = SDL_CreateTextureFromSurface(ren, surface);
 	SDL_FreeSurface(surface);
 	if (tex == nullptr) {
 		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
@@ -92,6 +124,37 @@ void initText()
 	message_rect.y = 0;
 	message_rect.w = 300;
 	message_rect.h = 100;
+}
+
+void initSprites()
+{
+	theSprite = new AnimatedSprite(tex);
+
+	//walk anim
+	int f1 = theSprite->createAnimFrame(0, 0, 72, 97);
+	int f2 = theSprite->createAnimFrame(73, 0, 72, 97);
+	int f3 = theSprite->createAnimFrame(146, 0, 72, 97);
+	int f4 = theSprite->createAnimFrame(0, 98, 72, 97);
+	int f5 = theSprite->createAnimFrame(73, 98, 72, 97);
+	int f6 = theSprite->createAnimFrame(146, 98, 72, 97);
+	int f7 = theSprite->createAnimFrame(219, 0, 72, 97);
+	int f8 = theSprite->createAnimFrame(292, 0, 72, 97);
+	int f9 = theSprite->createAnimFrame(219, 98, 72, 97);
+	int f11 = theSprite->createAnimFrame(292, 98, 72, 97);
+	int f10 = theSprite->createAnimFrame(365, 0, 72, 97);
+	int walkAnim[] = { f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11 };
+	int walk = theSprite->createAnim(walkAnim, 11);
+
+	theSprite->setFrameRate(10);
+	theSprite->playAnim(walk);
+	theSprite->moveSprite(300, 300);
+
+	logo = new AnimatedSprite(tex2);
+	int f = logo->createAnimFrame(0, 0, 2000, 876);
+	int af[] = { f };
+	int a = logo->createAnim(af, 1);
+	logo->setFrameRate(10);
+	logo->playAnim(a);
 }
 
 void handleInput()
@@ -139,7 +202,8 @@ void handleInput()
 // tag::updateSimulation[]
 void updateSimulation(double simLength = 0.02) //update simulation with an amount of time to simulate for (in seconds)
 {
-  //CHANGE ME
+	logo->update(simLength);
+	theSprite->update(simLength);
 }
 
 void render()
@@ -148,7 +212,9 @@ void render()
 		SDL_RenderClear(ren);
 
 		//Draw the texture
-		SDL_RenderCopy(ren, tex, NULL, NULL);
+		//SDL_RenderCopy(ren, tex, NULL, NULL);
+		logo->render(ren);
+		theSprite->render(ren);
 
 		//Draw the text
 		SDL_RenderCopy(ren, messageTexture, NULL, &message_rect);
@@ -157,22 +223,14 @@ void render()
 		SDL_RenderPresent(ren);
 }
 
-void cleanExit(int returnValue)
-{
-	if (messageTexture != nullptr) SDL_DestroyTexture(messageTexture);
-	if (tex != nullptr) SDL_DestroyTexture(tex);
-	if (ren != nullptr) SDL_DestroyRenderer(ren);
-	if (win != nullptr) SDL_DestroyWindow(win);
-	SDL_Quit();
-	exit(returnValue);
-}
 
-// based on http://www.willusher.io/sdl2%20tutorials/2013/08/17/lesson-1-hello-world/
 int main( int argc, char* args[] )
 {
 	initThings();
 	initTextures();
 	initText();
+
+	initSprites();
 
 	while (!done) //loop until done flag is set)
 	{
