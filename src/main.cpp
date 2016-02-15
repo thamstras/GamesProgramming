@@ -15,6 +15,7 @@
 #include <SDL2/SDL_ttf.h>
 #endif
 
+#include "StaticSprite.h"
 #include "AnimatedSprite.h"
 #include "TextSprite.h"
 
@@ -32,6 +33,8 @@ std::vector<AnimatedSprite*> spriteList;
 std::vector<TextSprite*> textList;
 
 bool done = false;
+bool key = false;
+bool clearSprites = false;
 
 void cleanExit(int returnValue)
 {
@@ -85,36 +88,37 @@ void initText()
 	textList.push_back(text);
 
 }
-
-void initSprites()
+void makePlayer(int x, int y)
 {
-
-
 	std::string path = "./assets/p1_spritesheet.png";
 	AnimatedSprite* sprite(new AnimatedSprite(path, ren));
-	
+
 	//walk anim
-	int f1 = sprite->createAnimFrame(0, 0, 72, 97);
-	int f2 = sprite->createAnimFrame(73, 0, 72, 97);
-	int f3 = sprite->createAnimFrame(146, 0, 72, 97);
-	int f4 = sprite->createAnimFrame(0, 98, 72, 97);
-	int f5 = sprite->createAnimFrame(73, 98, 72, 97);
-	int f6 = sprite->createAnimFrame(146, 98, 72, 97);
-	int f7 = sprite->createAnimFrame(219, 0, 72, 97);
-	int f8 = sprite->createAnimFrame(292, 0, 72, 97);
-	int f9 = sprite->createAnimFrame(219, 98, 72, 97);
-	int f11 = sprite->createAnimFrame(292, 98, 72, 97);
-	int f10 = sprite->createAnimFrame(365, 0, 72, 97);
-	int walkAnim[] = { f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11 };
+	int walkAnim[11] = { 0 };
+	walkAnim[0] = sprite->createAnimFrame(0, 0, 72, 97);
+	walkAnim[1] = sprite->createAnimFrame(73, 0, 72, 97);
+	walkAnim[2] = sprite->createAnimFrame(146, 0, 72, 97);
+	walkAnim[3] = sprite->createAnimFrame(0, 98, 72, 97);
+	walkAnim[4] = sprite->createAnimFrame(73, 98, 72, 97);
+	walkAnim[5] = sprite->createAnimFrame(146, 98, 72, 97);
+	walkAnim[6] = sprite->createAnimFrame(219, 0, 72, 97);
+	walkAnim[7] = sprite->createAnimFrame(292, 0, 72, 97);
+	walkAnim[8] = sprite->createAnimFrame(219, 98, 72, 97);
+	walkAnim[9] = sprite->createAnimFrame(292, 98, 72, 97);
+	walkAnim[10] = sprite->createAnimFrame(365, 0, 72, 97);
 	int walk = sprite->createAnim(walkAnim, 11);
 
 	sprite->setFrameRate(10);
 	sprite->playAnim(walk);
-	sprite->moveSprite(300, 300);
+	sprite->moveSprite(x, y);
 
 	spriteList.push_back(sprite);
+}
+void initSprites()
+{
+	makePlayer(300, 300);
 
-	path = "./assets/Opengl-logo.svg.png";
+	std::string path = "./assets/Opengl-logo.svg.png";
 	AnimatedSprite* logo(new AnimatedSprite(path, ren));
 	int f = logo->createAnimFrame(0, 0, 2000, 876);
 	int af[] = { f };
@@ -160,7 +164,9 @@ void handleInput()
 				switch (event.key.keysym.sym)
 				{
 					//hit escape to exit
-					case SDLK_ESCAPE: done = true;
+				case SDLK_ESCAPE: done = true; break;
+				case SDLK_SPACE: key = true; break;
+				case SDLK_r: clearSprites = true; break;
 				}
 			break;
 		}
@@ -174,6 +180,16 @@ void updateSimulation(double simLength = 0.02) //update simulation with an amoun
 	for (auto const& sprite : spriteList)
 	{
 		sprite->update(simLength);
+	}
+	if (key)
+	{
+		makePlayer(rand() % 500, rand() % 500);
+		key = false;
+	}
+	if (clearSprites)
+	{
+		spriteList.clear();
+		clearSprites = false;
 	}
 }
 

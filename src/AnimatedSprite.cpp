@@ -15,12 +15,7 @@ AnimatedSprite::AnimatedSprite(std::string imagePath, SDL_Renderer* ren)
 		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
 		//cleanExit(1);
 	}
-
-	//this->_tex = tex;
-
-	_frameList = std::vector<SDL_Rect>();
-	_animList = std::vector<SpriteAnim>();
-
+	
 	_x = 10;
 	_y = 10;
 
@@ -62,8 +57,6 @@ AnimatedSprite& AnimatedSprite::operator=(const AnimatedSprite& other)
 	}
 	return *this;
 }
-
-
 
 AnimatedSprite::~AnimatedSprite()
 {
