@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-
+#include <map>
 
 #ifdef _WIN32 // compiling on windows
 #include <SDL.h>
@@ -30,6 +30,12 @@ SDL_Rect message_rect; //SDL_rect for the message
 
 AnimatedSprite* logo;
 AnimatedSprite* theSprite;
+
+std::map<string, AnimatedSprite> animatedSpriteMap;
+std::map<string, TextRenderer> textMap;
+
+std::string logoName = "Logo";
+std::string textNme = "Text";
 
 TextRenderer* text;
 
@@ -112,20 +118,7 @@ void initText()
 		std::cout << "TTF_Init Failed: " << TTF_GetError() << std::endl;
 		cleanExit(1);
 	}
-	/*
-	TTF_Font* sans = TTF_OpenFont("./assets/Hack-Regular.ttf", 96);
-	if (sans == nullptr)
-	{
-		std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
-		cleanExit(1);
-	}
-	SDL_Color White = { 255, 255, 255 };
-	messageSurface = TTF_RenderText_Solid(sans, "Hello World!", White);
-	messageTexture = SDL_CreateTextureFromSurface(ren, messageSurface);
-	message_rect.x = 0;
-	message_rect.y = 0;
-	message_rect.w = 300;
-	message_rect.h = 100;*/
+	
 	text = new TextRenderer("./assets/Hack-Regular.ttf", 96, "Hello, World!", ren);
 	text->setScale(0.4f);
 	text->moveString(0, 0);
@@ -135,6 +128,10 @@ void initText()
 
 void initSprites()
 {
+
+	animatedSpriteMap[logoName] = AnimatedSprite(tex);
+
+
 	theSprite = new AnimatedSprite(tex);
 
 	//walk anim
@@ -167,7 +164,7 @@ void initSprites()
 
 void handleInput()
 {
-	//Event-based input handling
+	/*//Event-based input handling
 	//The underlying OS is event-based, so **each** key-up or key-down (for example)
 	//generates an event.
 	//  - https://wiki.libsdl.org/SDL_PollEvent
@@ -175,7 +172,7 @@ void handleInput()
 	//  - for instance, if taking keyboard input the user might key-down two keys during a frame
 	//    - we want to catch based, and know the order
 	//  - or the user might key-down and key-up the same within a frame, and we still want something to happen (e.g. jump)
-	//  - the alternative is to Poll the current state with SDL_GetKeyboardState
+	//  - the alternative is to Poll the current state with SDL_GetKeyboardState*/
 
 	SDL_Event event; //somewhere to store an event
 
