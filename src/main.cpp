@@ -16,7 +16,7 @@
 #endif
 
 #include "AnimatedSprite.h"
-#include "TextRenderer.h"
+#include "TextSprite.h"
 
 std::string exeName;
 SDL_Window *win; //pointer to the SDL_Window
@@ -31,13 +31,13 @@ SDL_Rect message_rect; //SDL_rect for the message
 AnimatedSprite* logo;
 AnimatedSprite* theSprite;
 
-std::map<string, AnimatedSprite> animatedSpriteMap;
-std::map<string, TextRenderer> textMap;
+//std::map<string, AnimatedSprite> animatedSpriteMap;
+//std::map<string, TextRenderer> textMap;
 
 std::string logoName = "Logo";
 std::string textNme = "Text";
 
-TextRenderer* text;
+TextSprite* text;
 
 bool done = false;
 
@@ -119,7 +119,7 @@ void initText()
 		cleanExit(1);
 	}
 	
-	text = new TextRenderer("./assets/Hack-Regular.ttf", 96, "Hello, World!", ren);
+	text = new TextSprite("./assets/Hack-Regular.ttf", 96, "Hello, World!", ren);
 	text->setScale(0.4f);
 	text->moveString(0, 0);
 

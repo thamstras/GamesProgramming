@@ -5,11 +5,11 @@
 #include <SDL_ttf.h>
 #include <iostream>
 
-class TextRenderer
+class TextSprite
 {
 public:
-	TextRenderer(std::string font, int size, std::string string, SDL_Renderer* ren);
-	~TextRenderer();
+	TextSprite(std::string font, int size, std::string string, SDL_Renderer* ren);
+	~TextSprite();
 	void render(SDL_Renderer* ren);
 	void setString(std::string s, SDL_Renderer* ren);
 	void moveString(int x, int y);
