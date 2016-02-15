@@ -15,7 +15,7 @@ using std::string;
 class AnimatedSprite
 {
 public:
-	AnimatedSprite(SDL_Texture* tex);
+	AnimatedSprite(std::string path, SDL_Renderer* ren);
 	AnimatedSprite(const AnimatedSprite& other);
 	AnimatedSprite& operator=(const AnimatedSprite& other);
 	~AnimatedSprite();

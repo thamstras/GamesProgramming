@@ -28,16 +28,8 @@ SDL_Surface *messageSurface; //pointer to the SDL_Surface for message
 SDL_Texture *messageTexture; //pointer to the SDL_Texture for message
 SDL_Rect message_rect; //SDL_rect for the message
 
-AnimatedSprite* logo;
-AnimatedSprite* theSprite;
-
-//std::map<string, AnimatedSprite> animatedSpriteMap;
-//std::map<string, TextRenderer> textMap;
-
-std::string logoName = "Logo";
-std::string textNme = "Text";
-
-TextSprite* text;
+std::vector<AnimatedSprite*> spriteList;
+std::vector<TextSprite*> textList;
 
 bool done = false;
 
@@ -47,7 +39,6 @@ void cleanExit(int returnValue)
 	if (tex != nullptr) SDL_DestroyTexture(tex);
 	if (ren != nullptr) SDL_DestroyRenderer(ren);
 	if (win != nullptr) SDL_DestroyWindow(win);
-	if (theSprite != nullptr) delete theSprite;
 	SDL_Quit();
 	exit(returnValue);
 }
@@ -80,37 +71,6 @@ void initThings()
 	}
 }
 
-void initTextures()
-{
-	std::string imagePath = "./assets/p1_spritesheet.png";
-	surface = IMG_Load(imagePath.c_str());
-	if (surface == nullptr) {
-		std::cout << "SDL IMG_Load Error: " << SDL_GetError() << std::endl;
-		cleanExit(1);
-	}
-
-	tex = SDL_CreateTextureFromSurface(ren, surface);
-	SDL_FreeSurface(surface);
-	if (tex == nullptr) {
-		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-		cleanExit(1);
-	}
-
-	std::string imagePath2 = "./assets/Opengl-logo.svg.png";
-	surface = IMG_Load(imagePath2.c_str());
-	if (surface == nullptr) {
-		std::cout << "SDL IMG_Load Error: " << SDL_GetError() << std::endl;
-		cleanExit(1);
-	}
-
-	tex2 = SDL_CreateTextureFromSurface(ren, surface);
-	SDL_FreeSurface(surface);
-	if (tex == nullptr) {
-		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-		cleanExit(1);
-	}
-}
-
 void initText()
 {
 	if (TTF_Init() == -1)
@@ -119,47 +79,51 @@ void initText()
 		cleanExit(1);
 	}
 	
-	text = new TextSprite("./assets/Hack-Regular.ttf", 96, "Hello, World!", ren);
+	TextSprite* text(new TextSprite("./assets/Hack-Regular.ttf", 96, "Hello, World!", ren));
 	text->setScale(0.4f);
 	text->moveString(0, 0);
-
+	textList.push_back(text);
 
 }
 
 void initSprites()
 {
 
-	animatedSpriteMap[logoName] = AnimatedSprite(tex);
 
-
-	theSprite = new AnimatedSprite(tex);
-
+	std::string path = "./assets/p1_spritesheet.png";
+	AnimatedSprite* sprite(new AnimatedSprite(path, ren));
+	
 	//walk anim
-	int f1 = theSprite->createAnimFrame(0, 0, 72, 97);
-	int f2 = theSprite->createAnimFrame(73, 0, 72, 97);
-	int f3 = theSprite->createAnimFrame(146, 0, 72, 97);
-	int f4 = theSprite->createAnimFrame(0, 98, 72, 97);
-	int f5 = theSprite->createAnimFrame(73, 98, 72, 97);
-	int f6 = theSprite->createAnimFrame(146, 98, 72, 97);
-	int f7 = theSprite->createAnimFrame(219, 0, 72, 97);
-	int f8 = theSprite->createAnimFrame(292, 0, 72, 97);
-	int f9 = theSprite->createAnimFrame(219, 98, 72, 97);
-	int f11 = theSprite->createAnimFrame(292, 98, 72, 97);
-	int f10 = theSprite->createAnimFrame(365, 0, 72, 97);
+	int f1 = sprite->createAnimFrame(0, 0, 72, 97);
+	int f2 = sprite->createAnimFrame(73, 0, 72, 97);
+	int f3 = sprite->createAnimFrame(146, 0, 72, 97);
+	int f4 = sprite->createAnimFrame(0, 98, 72, 97);
+	int f5 = sprite->createAnimFrame(73, 98, 72, 97);
+	int f6 = sprite->createAnimFrame(146, 98, 72, 97);
+	int f7 = sprite->createAnimFrame(219, 0, 72, 97);
+	int f8 = sprite->createAnimFrame(292, 0, 72, 97);
+	int f9 = sprite->createAnimFrame(219, 98, 72, 97);
+	int f11 = sprite->createAnimFrame(292, 98, 72, 97);
+	int f10 = sprite->createAnimFrame(365, 0, 72, 97);
 	int walkAnim[] = { f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11 };
-	int walk = theSprite->createAnim(walkAnim, 11);
+	int walk = sprite->createAnim(walkAnim, 11);
 
-	theSprite->setFrameRate(10);
-	theSprite->playAnim(walk);
-	theSprite->moveSprite(300, 300);
+	sprite->setFrameRate(10);
+	sprite->playAnim(walk);
+	sprite->moveSprite(300, 300);
 
-	logo = new AnimatedSprite(tex2);
+	spriteList.push_back(sprite);
+
+	path = "./assets/Opengl-logo.svg.png";
+	AnimatedSprite* logo(new AnimatedSprite(path, ren));
 	int f = logo->createAnimFrame(0, 0, 2000, 876);
 	int af[] = { f };
 	int a = logo->createAnim(af, 1);
 	logo->scaleSprite(0.25, 0.25);
 	logo->setFrameRate(10);
 	logo->playAnim(a);
+
+	spriteList.push_back(logo);
 }
 
 void handleInput()
@@ -207,8 +171,10 @@ void handleInput()
 // tag::updateSimulation[]
 void updateSimulation(double simLength = 0.02) //update simulation with an amount of time to simulate for (in seconds)
 {
-	logo->update(simLength);
-	theSprite->update(simLength);
+	for (auto const& sprite : spriteList)
+	{
+		sprite->update(simLength);
+	}
 }
 
 void render()
@@ -216,13 +182,15 @@ void render()
 		//First clear the renderer
 		SDL_RenderClear(ren);
 
-		//Draw the texture
-		//SDL_RenderCopy(ren, tex, NULL, NULL);
-		logo->render(ren);
-		theSprite->render(ren);
-		text->render(ren);
-		//Draw the text
-		//SDL_RenderCopy(ren, messageTexture, NULL, &message_rect);
+		//Draw things
+		for (auto const& sprite : spriteList)
+		{
+			sprite->render(ren);
+		}
+		for (auto const& text : textList)
+		{
+			text->render(ren);
+		}
 
 		//Update the screen
 		SDL_RenderPresent(ren);
@@ -232,9 +200,8 @@ void render()
 int main( int argc, char* args[] )
 {
 	initThings();
-	initTextures();
-	initText();
 
+	initText();
 	initSprites();
 
 	while (!done) //loop until done flag is set)

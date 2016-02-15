@@ -20,6 +20,8 @@ TextSprite::TextSprite(std::string font, int size, std::string string, SDL_Rende
 
 TextSprite::~TextSprite()
 {
+	TTF_CloseFont(this->_font);
+	SDL_DestroyTexture(this->_tex);
 }
 
 void TextSprite::render(SDL_Renderer* ren)

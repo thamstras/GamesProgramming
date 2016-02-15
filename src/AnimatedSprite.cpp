@@ -1,8 +1,22 @@
 #include "AnimatedSprite.h"
 
-AnimatedSprite::AnimatedSprite(SDL_Texture* tex)
+AnimatedSprite::AnimatedSprite(std::string imagePath, SDL_Renderer* ren)
 {
-	this->_tex = tex;
+
+	SDL_Surface* surface = IMG_Load(imagePath.c_str());
+	if (surface == nullptr) {
+		std::cout << "SDL IMG_Load Error: " << SDL_GetError() << std::endl;
+		//cleanExit(1);
+	}
+
+	this->_tex = SDL_CreateTextureFromSurface(ren, surface);
+	SDL_FreeSurface(surface);
+	if (this->_tex == nullptr) {
+		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+		//cleanExit(1);
+	}
+
+	//this->_tex = tex;
 
 	_frameList = std::vector<SDL_Rect>();
 	_animList = std::vector<SpriteAnim>();
@@ -54,6 +68,7 @@ AnimatedSprite& AnimatedSprite::operator=(const AnimatedSprite& other)
 AnimatedSprite::~AnimatedSprite()
 {
 	std::cout << "AnimatedSprite::~AnimatedSprite()\n";
+	SDL_DestroyTexture(this->_tex);
 }
 
 void AnimatedSprite::update(double simLength)
