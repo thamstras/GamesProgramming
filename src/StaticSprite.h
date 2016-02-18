@@ -14,16 +14,24 @@ public:
 	StaticSprite(const StaticSprite& other);
 	~StaticSprite();
 
+	void update(double simLength);
 	void render(SDL_Renderer* ren);
+
+	int getXPos();
+	int getYPos();
+	float getXScale();
+	float getYScale();
+	void setSrcRect(SDL_Rect newSrc);
+	void moveSprite(int x, int y);
+	void scaleSprite(float xScale, float yScale);
 
 private:
 	int _x;
 	int _y;
-	int _w;
-	int _h;
 	float _scaleX;
 	float _scaleY;
 
+	SDL_Rect _srcRect;
 	SDL_Texture* _tex;
 };
 
