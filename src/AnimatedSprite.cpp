@@ -2,39 +2,16 @@
 
 AnimatedSprite::AnimatedSprite(std::string imagePath, SDL_Renderer* ren) : StaticSprite( imagePath, ren)
 {
-
-	/*SDL_Surface* surface = IMG_Load(imagePath.c_str());
-	if (surface == nullptr) {
-		std::cout << "SDL IMG_Load Error: " << SDL_GetError() << std::endl;
-		//cleanExit(1);
-	}
-
-	this->_tex = SDL_CreateTextureFromSurface(ren, surface);
-	SDL_FreeSurface(surface);
-	if (this->_tex == nullptr) {
-		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-		//cleanExit(1);
-	}
-	
-	_x = 10;
-	_y = 10;
-
-	_scaleX = 1.0f;
-	_scaleY = 1.0f;*/
-
+	// Just calls parent constructor. Animated Sprite's special stuff is done in other functions
 }
 
 AnimatedSprite::AnimatedSprite(const AnimatedSprite& other) : StaticSprite(other)
 {
 	std::cout << "AnimatedSprite::AnimatedSprite(const AnimatedSprite& other)\n";
-	//this->_x = other._x;
-	//this->_y = other._y;
 	this->_frameRate = other._frameRate;
-	//this->_tex = other._tex;
 	this->_currAnim = other._currAnim;
 	this->_animFrame = other._animFrame;
 	this->_currFrame = other._currFrame;
-	//this->_currFrameRect = other._currFrameRect;
 	this->_frameList = other._frameList;
 	this->_animList = other._animList;
 }
@@ -45,14 +22,10 @@ AnimatedSprite& AnimatedSprite::operator=(const AnimatedSprite& other)
 	{
 		std::cout << "AnimatedSprite& AnimatedSprite::operator=(const AnimatedSprite& other)\n";
 		StaticSprite::operator=(other);
-		//this->_x = other._x;
-		//this->_y = other._y;
 		this->_frameRate = other._frameRate;
-		//this->_tex = other._tex;
 		this->_currAnim = other._currAnim;
 		this->_animFrame = other._animFrame;
 		this->_currFrame = other._currFrame;
-		//this->_currFrameRect = other._currFrameRect;
 		this->_frameList = other._frameList;
 		this->_animList = other._animList;
 	}
@@ -116,15 +89,3 @@ void AnimatedSprite::playAnim(int animID)
 	SpriteAnim anim = _animList[_currAnim];
 	_srcRect = anim.frames[0];
 }
-
-/*void AnimatedSprite::moveSprite(int x, int y)
-{
-	this->_x = x;
-	this->_y = y;
-}*/
-
-/*void AnimatedSprite::scaleSprite(float xScale, float yScale)
-{
-	this->_scaleX = xScale;
-	this->_scaleY = yScale;
-}*/

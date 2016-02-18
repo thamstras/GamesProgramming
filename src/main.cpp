@@ -30,9 +30,6 @@ SDL_Surface *messageSurface; //pointer to the SDL_Surface for message
 SDL_Texture *messageTexture; //pointer to the SDL_Texture for message
 SDL_Rect message_rect; //SDL_rect for the message
 
-//std::vector<AnimatedSprite*> spriteList;
-//std::vector<TextSprite*> textList;
-
 std::vector<RenderObject*> objectList;
 
 bool done = false;
