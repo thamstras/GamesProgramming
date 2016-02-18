@@ -22,8 +22,6 @@ AnimatedSprite::AnimatedSprite(std::string imagePath, SDL_Renderer* ren) : Stati
 	_scaleX = 1.0f;
 	_scaleY = 1.0f;*/
 
-
-
 }
 
 AnimatedSprite::AnimatedSprite(const AnimatedSprite& other) : StaticSprite(other)

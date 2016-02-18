@@ -8,7 +8,7 @@
 #include "SpriteAnim.h"
 #include "RenderObject.h"
 
-class StaticSprite : RenderObject
+class StaticSprite : public RenderObject
 {
 public:
 	StaticSprite(std::string path, SDL_Renderer* ren);

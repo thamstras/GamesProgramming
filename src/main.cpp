@@ -15,6 +15,7 @@
 #include <SDL2/SDL_ttf.h>
 #endif
 
+#include "RenderObject.h"
 #include "StaticSprite.h"
 #include "AnimatedSprite.h"
 #include "TextSprite.h"
@@ -29,8 +30,10 @@ SDL_Surface *messageSurface; //pointer to the SDL_Surface for message
 SDL_Texture *messageTexture; //pointer to the SDL_Texture for message
 SDL_Rect message_rect; //SDL_rect for the message
 
-std::vector<AnimatedSprite*> spriteList;
-std::vector<TextSprite*> textList;
+//std::vector<AnimatedSprite*> spriteList;
+//std::vector<TextSprite*> textList;
+
+std::vector<RenderObject*> objectList;
 
 bool done = false;
 bool key = false;
@@ -85,7 +88,7 @@ void initText()
 	TextSprite* text(new TextSprite("./assets/Hack-Regular.ttf", 96, "Hello, World!", ren));
 	text->setScale(0.4f);
 	text->moveString(0, 0);
-	textList.push_back(text);
+	objectList.push_back(text);
 
 }
 void makePlayer(int x, int y)
@@ -112,7 +115,7 @@ void makePlayer(int x, int y)
 	sprite->playAnim(walk);
 	sprite->moveSprite(x, y);
 
-	spriteList.push_back(sprite);
+	objectList.push_back(sprite);
 }
 void initSprites()
 {
@@ -127,7 +130,7 @@ void initSprites()
 	logo->setFrameRate(10);
 	logo->playAnim(a);
 
-	spriteList.push_back(logo);
+	objectList.push_back(logo);
 }
 
 void handleInput()
@@ -177,9 +180,9 @@ void handleInput()
 // tag::updateSimulation[]
 void updateSimulation(double simLength = 0.02) //update simulation with an amount of time to simulate for (in seconds)
 {
-	for (auto const& sprite : spriteList)
+	for (auto const& object : objectList)
 	{
-		sprite->update(simLength);
+		object->update(simLength);
 	}
 	if (key)
 	{
@@ -188,7 +191,7 @@ void updateSimulation(double simLength = 0.02) //update simulation with an amoun
 	}
 	if (clearSprites)
 	{
-		spriteList.clear();
+		objectList.clear();
 		clearSprites = false;
 	}
 }
@@ -199,13 +202,9 @@ void render()
 		SDL_RenderClear(ren);
 
 		//Draw things
-		for (auto const& sprite : spriteList)
+		for (auto const& object : objectList)
 		{
-			sprite->render(ren);
-		}
-		for (auto const& text : textList)
-		{
-			text->render(ren);
+			object->render(ren);
 		}
 
 		//Update the screen

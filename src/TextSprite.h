@@ -7,7 +7,7 @@
 
 #include "RenderObject.h"
 
-class TextSprite : RenderObject
+class TextSprite : public RenderObject
 {
 public:
 	TextSprite(std::string font, int size, std::string string, SDL_Renderer* ren);
