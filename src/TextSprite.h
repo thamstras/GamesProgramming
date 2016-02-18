@@ -5,11 +5,14 @@
 #include <SDL_ttf.h>
 #include <iostream>
 
-class TextSprite
+#include "RenderObject.h"
+
+class TextSprite : RenderObject
 {
 public:
 	TextSprite(std::string font, int size, std::string string, SDL_Renderer* ren);
 	~TextSprite();
+	void update(double simLength);
 	void render(SDL_Renderer* ren);
 	void setString(std::string s, SDL_Renderer* ren);
 	void moveString(int x, int y);

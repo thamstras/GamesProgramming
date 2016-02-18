@@ -64,7 +64,7 @@ AnimatedSprite& AnimatedSprite::operator=(const AnimatedSprite& other)
 AnimatedSprite::~AnimatedSprite()
 {
 	std::cout << "AnimatedSprite::~AnimatedSprite()\n";
-	//SDL_DestroyTexture(this->_tex); //Done by StaticSprite
+	SDL_DestroyTexture(this->_tex); //Done by StaticSprite
 }
 
 void AnimatedSprite::update(double simLength)

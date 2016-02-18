@@ -6,13 +6,14 @@
 #include <iostream>
 
 #include "SpriteAnim.h"
+#include "RenderObject.h"
 
-class StaticSprite
+class StaticSprite : RenderObject
 {
 public:
 	StaticSprite(std::string path, SDL_Renderer* ren);
 	StaticSprite(const StaticSprite& other);
-	~StaticSprite();
+	virtual ~StaticSprite();
 	StaticSprite& StaticSprite::operator=(const StaticSprite& other);
 
 	void update(double simLength);

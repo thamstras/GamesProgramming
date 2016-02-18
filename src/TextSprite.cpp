@@ -24,6 +24,11 @@ TextSprite::~TextSprite()
 	SDL_DestroyTexture(this->_tex);
 }
 
+void TextSprite::update(double simLength)
+{
+	// Does Nothing
+}
+
 void TextSprite::render(SDL_Renderer* ren)
 {
 	SDL_Rect rect = { _x, _y, _width*_scale, _height*_scale };
