@@ -109,10 +109,12 @@ void AnimatedSprite::setFrameRate(int frameRate)
 	_frameRate = frameRate;
 }
 
-void AnimatedSprite::playAnim(int anim)
+void AnimatedSprite::playAnim(int animID)
 {
-	_currAnim = anim;
+	_currAnim = animID;
 	_animFrame = 0;
+	SpriteAnim anim = _animList[_currAnim];
+	_srcRect = anim.frames[0];
 }
 
 /*void AnimatedSprite::moveSprite(int x, int y)
