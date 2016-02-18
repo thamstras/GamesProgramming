@@ -13,6 +13,7 @@ public:
 	StaticSprite(std::string path, SDL_Renderer* ren);
 	StaticSprite(const StaticSprite& other);
 	~StaticSprite();
+	StaticSprite& StaticSprite::operator=(const StaticSprite& other);
 
 	void update(double simLength);
 	void render(SDL_Renderer* ren);
@@ -25,7 +26,7 @@ public:
 	void moveSprite(int x, int y);
 	void scaleSprite(float xScale, float yScale);
 
-private:
+protected:
 	int _x;
 	int _y;
 	float _scaleX;

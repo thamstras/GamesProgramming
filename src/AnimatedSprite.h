@@ -7,12 +7,13 @@
 #include <iostream>
 
 #include "SpriteAnim.h"
+#include "StaticSprite.h"
 
 using std::string;
 
 
 
-class AnimatedSprite
+class AnimatedSprite : public StaticSprite
 {
 public:
 	AnimatedSprite(std::string path, SDL_Renderer* ren);
@@ -26,24 +27,24 @@ public:
 	int createAnim(int * frames, int nFrames);
 	void setFrameRate(int frameRate);
 	void playAnim(int amim);
-	void moveSprite(int x, int y);
-	void scaleSprite(float xScale, float yScale);
+	//void moveSprite(int x, int y);
+	//void scaleSprite(float xScale, float yScale);
 
 private:
 	
 
-	int _x;
-	int _y;
-	float _scaleX;
-	float _scaleY;
+	//int _x;
+	//int _y;
+	//float _scaleX;
+	//float _scaleY;
 	int _frameRate;
-	SDL_Texture *_tex;
+	//SDL_Texture *_tex;
 	std::vector<SDL_Rect> _frameList;
 	std::vector<SpriteAnim> _animList;
 	int _currAnim;
 	//float _animProgress;
 	int _animFrame;
 	int _currFrame;
-	SDL_Rect _currFrameRect;
+	//SDL_Rect _currFrameRect; //Now _srcRect from StaticSprite
 };
 

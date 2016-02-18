@@ -1,9 +1,9 @@
 #include "AnimatedSprite.h"
 
-AnimatedSprite::AnimatedSprite(std::string imagePath, SDL_Renderer* ren)
+AnimatedSprite::AnimatedSprite(std::string imagePath, SDL_Renderer* ren) : StaticSprite( imagePath, ren)
 {
 
-	SDL_Surface* surface = IMG_Load(imagePath.c_str());
+	/*SDL_Surface* surface = IMG_Load(imagePath.c_str());
 	if (surface == nullptr) {
 		std::cout << "SDL IMG_Load Error: " << SDL_GetError() << std::endl;
 		//cleanExit(1);
@@ -20,21 +20,23 @@ AnimatedSprite::AnimatedSprite(std::string imagePath, SDL_Renderer* ren)
 	_y = 10;
 
 	_scaleX = 1.0f;
-	_scaleY = 1.0f;
+	_scaleY = 1.0f;*/
+
+
 
 }
 
-AnimatedSprite::AnimatedSprite(const AnimatedSprite& other)
+AnimatedSprite::AnimatedSprite(const AnimatedSprite& other) : StaticSprite(other)
 {
 	std::cout << "AnimatedSprite::AnimatedSprite(const AnimatedSprite& other)\n";
-	this->_x = other._x;
-	this->_y = other._y;
+	//this->_x = other._x;
+	//this->_y = other._y;
 	this->_frameRate = other._frameRate;
-	this->_tex = other._tex;
+	//this->_tex = other._tex;
 	this->_currAnim = other._currAnim;
 	this->_animFrame = other._animFrame;
 	this->_currFrame = other._currFrame;
-	this->_currFrameRect = other._currFrameRect;
+	//this->_currFrameRect = other._currFrameRect;
 	this->_frameList = other._frameList;
 	this->_animList = other._animList;
 }
@@ -44,14 +46,15 @@ AnimatedSprite& AnimatedSprite::operator=(const AnimatedSprite& other)
 	if (this != &other)
 	{
 		std::cout << "AnimatedSprite& AnimatedSprite::operator=(const AnimatedSprite& other)\n";
-		this->_x = other._x;
-		this->_y = other._y;
+		StaticSprite::operator=(other);
+		//this->_x = other._x;
+		//this->_y = other._y;
 		this->_frameRate = other._frameRate;
-		this->_tex = other._tex;
+		//this->_tex = other._tex;
 		this->_currAnim = other._currAnim;
 		this->_animFrame = other._animFrame;
 		this->_currFrame = other._currFrame;
-		this->_currFrameRect = other._currFrameRect;
+		//this->_currFrameRect = other._currFrameRect;
 		this->_frameList = other._frameList;
 		this->_animList = other._animList;
 	}
@@ -61,7 +64,7 @@ AnimatedSprite& AnimatedSprite::operator=(const AnimatedSprite& other)
 AnimatedSprite::~AnimatedSprite()
 {
 	std::cout << "AnimatedSprite::~AnimatedSprite()\n";
-	SDL_DestroyTexture(this->_tex);
+	//SDL_DestroyTexture(this->_tex); //Done by StaticSprite
 }
 
 void AnimatedSprite::update(double simLength)
@@ -70,7 +73,7 @@ void AnimatedSprite::update(double simLength)
 	_currFrame = _animFrame / _frameRate;
 	SpriteAnim anim = _animList[_currAnim];
 	_currFrame %= anim.nFrames;
-	_currFrameRect = anim.frames[_currFrame];
+	_srcRect = anim.frames[_currFrame];
 }
 
 void AnimatedSprite::render(SDL_Renderer *renderer)
@@ -78,9 +81,9 @@ void AnimatedSprite::render(SDL_Renderer *renderer)
 	SDL_Rect destRect;
 	destRect.x = _x;
 	destRect.y = _y;
-	destRect.w = _currFrameRect.w * _scaleX;
-	destRect.h = _currFrameRect.h * _scaleY;
-	SDL_RenderCopy(renderer, _tex, &_currFrameRect, &destRect);
+	destRect.w = _srcRect.w * _scaleX;	//Note: The narrowing cast here is intended.
+	destRect.h = _srcRect.h * _scaleY;
+	SDL_RenderCopy(renderer, _tex, &_srcRect, &destRect);
 }
 
 int AnimatedSprite::createAnimFrame(int left, int top, int width, int height)
@@ -114,14 +117,14 @@ void AnimatedSprite::playAnim(int anim)
 	_animFrame = 0;
 }
 
-void AnimatedSprite::moveSprite(int x, int y)
+/*void AnimatedSprite::moveSprite(int x, int y)
 {
 	this->_x = x;
 	this->_y = y;
-}
+}*/
 
-void AnimatedSprite::scaleSprite(float xScale, float yScale)
+/*void AnimatedSprite::scaleSprite(float xScale, float yScale)
 {
 	this->_scaleX = xScale;
 	this->_scaleY = yScale;
-}
+}*/

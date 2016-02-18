@@ -43,6 +43,20 @@ StaticSprite::~StaticSprite()
 	SDL_DestroyTexture(this->_tex);
 }
 
+StaticSprite & StaticSprite::operator=(const StaticSprite & other)
+{
+	if (this != &other)
+	{
+		this->_x = other._x;
+		this->_y = other._y;
+		this->_scaleX = other._scaleX;
+		this->_scaleY = other._scaleY;
+		this->_srcRect = other._srcRect;
+		this->_tex = other._tex;
+	}
+	return *this;
+}
+
 void StaticSprite::update(double simLength)
 {
 	// Does Nothing
