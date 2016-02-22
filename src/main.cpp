@@ -24,11 +24,6 @@ std::string exeName;
 SDL_Window *win; //pointer to the SDL_Window
 SDL_Renderer *ren; //pointer to the SDL_Renderer
 SDL_Surface *surface; //pointer to the SDL_Surface
-SDL_Texture *tex; //pointer to the SDL_Texture
-SDL_Texture *tex2;
-SDL_Surface *messageSurface; //pointer to the SDL_Surface for message
-SDL_Texture *messageTexture; //pointer to the SDL_Texture for message
-SDL_Rect message_rect; //SDL_rect for the message
 
 std::vector<RenderObject*> objectList;
 
@@ -38,8 +33,6 @@ bool clearSprites = false;
 
 void cleanExit(int returnValue)
 {
-	if (messageTexture != nullptr) SDL_DestroyTexture(messageTexture);
-	if (tex != nullptr) SDL_DestroyTexture(tex);
 	if (ren != nullptr) SDL_DestroyRenderer(ren);
 	if (win != nullptr) SDL_DestroyWindow(win);
 	SDL_Quit();
