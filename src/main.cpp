@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <string>
 #include <map>
+#include <chrono>
 
 #ifdef _WIN32 // compiling on windows
 #include <SDL.h>
@@ -20,6 +21,10 @@
 #include "AnimatedSprite.h"
 #include "TextSprite.h"
 
+//typedef std::chrono::high_resolution_clock Clock;
+//typedef std::chrono::nanoseconds Duration;
+//typedef std::chrono::time_point<Clock, Duration> Time_Point;
+
 std::string exeName;
 SDL_Window *win; //pointer to the SDL_Window
 SDL_Renderer *ren; //pointer to the SDL_Renderer
@@ -30,6 +35,13 @@ std::vector<RenderObject*> objectList;
 bool done = false;
 bool key = false;
 bool clearSprites = false;
+
+//Time_Point frameStart;
+//Time_Point lastFrameStart;
+
+std::chrono::time_point<std::chrono::high_resolution_clock> frameStart;
+std::chrono::time_point<std::chrono::high_resolution_clock> lastFrameStart;
+double lft;
 
 void cleanExit(int returnValue)
 {
@@ -59,7 +71,8 @@ void initThings()
 	}
 	std::cout << "SDL CreatedWindow OK!\n";
 
-	ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	//ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 	if (ren == nullptr)
 	{
 		std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
@@ -201,6 +214,13 @@ void render()
 		SDL_RenderPresent(ren);
 }
 
+void postRender()
+{
+	auto lastFrameTime = frameStart.time_since_epoch() - lastFrameStart.time_since_epoch();
+	lft = lastFrameTime.count() / 1000000000.0f;
+	double fps = 1.0f / lft;
+	//std::cout << "\r" << lft << "\t" << fps << "          ";
+}
 
 int main( int argc, char* args[] )
 {
@@ -209,15 +229,21 @@ int main( int argc, char* args[] )
 	initText();
 	initSprites();
 
+	
+
 	while (!done) //loop until done flag is set)
 	{
+		frameStart = std::chrono::high_resolution_clock::now();
 		handleInput(); // this should ONLY SET VARIABLES
 
-		updateSimulation(); // this should ONLY SET VARIABLES according to simulation
+		updateSimulation(lft); // this should ONLY SET VARIABLES according to simulation
 
 		render(); // this should render the world state according to VARIABLES
 
-		SDL_Delay(20); // unless vsync is on??
+		postRender();
+
+		//SDL_Delay(20); // unless vsync is on??
+		lastFrameStart = frameStart;
 	}
 
 	cleanExit(0);

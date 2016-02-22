@@ -40,11 +40,18 @@ AnimatedSprite::~AnimatedSprite()
 
 void AnimatedSprite::update(double simLength)
 {
-	_animFrame++;
+	_animTime += simLength;
+	if (_animTime >= 0.016f)
+	{
+		std::cout << "\r" << _animTime;
+		_animFrame++;
+		_animTime = 0.0f;
+	}
 	_currFrame = _animFrame / _frameRate;
 	SpriteAnim anim = _animList[_currAnim];
 	_currFrame %= anim.nFrames;
 	_srcRect = anim.frames[_currFrame];
+	//std::cout << "\r" << simLength;
 }
 
 void AnimatedSprite::render(SDL_Renderer *renderer)
@@ -88,4 +95,5 @@ void AnimatedSprite::playAnim(int animID)
 	_animFrame = 0;
 	SpriteAnim anim = _animList[_currAnim];
 	_srcRect = anim.frames[0];
+	_animTime = 0.0f;
 }

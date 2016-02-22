@@ -35,5 +35,6 @@ private:
 	int _currAnim;
 	int _animFrame;
 	int _currFrame;
+	double _animTime;
 };
 
