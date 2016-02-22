@@ -20,6 +20,7 @@
 #include "StaticSprite.h"
 #include "AnimatedSprite.h"
 #include "TextSprite.h"
+#include "GravObj.h"
 
 //typedef std::chrono::high_resolution_clock Clock;
 //typedef std::chrono::nanoseconds Duration;
@@ -94,46 +95,14 @@ void initText()
 	objectList.push_back(text);
 
 }
-void makePlayer(int x, int y)
-{
-	std::string path = "./assets/p1_spritesheet.png";
-	AnimatedSprite* sprite(new AnimatedSprite(path, ren));
 
-	//walk anim
-	int walkAnim[11] = { 0 };
-	walkAnim[0] = sprite->createAnimFrame(0, 0, 72, 97);
-	walkAnim[1] = sprite->createAnimFrame(73, 0, 72, 97);
-	walkAnim[2] = sprite->createAnimFrame(146, 0, 72, 97);
-	walkAnim[3] = sprite->createAnimFrame(0, 98, 72, 97);
-	walkAnim[4] = sprite->createAnimFrame(73, 98, 72, 97);
-	walkAnim[5] = sprite->createAnimFrame(146, 98, 72, 97);
-	walkAnim[6] = sprite->createAnimFrame(219, 0, 72, 97);
-	walkAnim[7] = sprite->createAnimFrame(292, 0, 72, 97);
-	walkAnim[8] = sprite->createAnimFrame(219, 98, 72, 97);
-	walkAnim[9] = sprite->createAnimFrame(292, 98, 72, 97);
-	walkAnim[10] = sprite->createAnimFrame(365, 0, 72, 97);
-	int walk = sprite->createAnim(walkAnim, 11);
-
-	sprite->setFrameRate(10);
-	sprite->playAnim(walk);
-	sprite->moveSprite(x, y);
-
-	objectList.push_back(sprite);
-}
 void initSprites()
 {
-	makePlayer(300, 300);
-
-	std::string path = "./assets/Opengl-logo.svg.png";
-	AnimatedSprite* logo(new AnimatedSprite(path, ren));
-	int f = logo->createAnimFrame(0, 0, 2000, 876);
-	int af[] = { f };
-	int a = logo->createAnim(af, 1);
-	logo->scaleSprite(0.25, 0.25);
-	logo->setFrameRate(10);
-	logo->playAnim(a);
-
-	objectList.push_back(logo);
+	std::string path = "./assets/PixelPlanets.png";
+	GravObj* Earth(new GravObj(path, ren, 100000, glm::vec2(150, 50)));
+	Earth->setSrcRect(SDL_Rect { 77, 71, 32, 32 });
+	Earth->setGrav(glm::dvec2(300, 300), 5);
+	objectList.push_back(Earth);
 }
 
 void handleInput()
@@ -187,16 +156,6 @@ void updateSimulation(double simLength = 0.02) //update simulation with an amoun
 	{
 		object->update(simLength);
 	}
-	if (key)
-	{
-		makePlayer(rand() % 500, rand() % 500);
-		key = false;
-	}
-	if (clearSprites)
-	{
-		objectList.clear();
-		clearSprites = false;
-	}
 }
 
 void render()
@@ -236,7 +195,7 @@ int main( int argc, char* args[] )
 		frameStart = std::chrono::high_resolution_clock::now();
 		handleInput(); // this should ONLY SET VARIABLES
 
-		updateSimulation(lft); // this should ONLY SET VARIABLES according to simulation
+		updateSimulation(lft / 1000.0f); // this should ONLY SET VARIABLES according to simulation
 
 		render(); // this should render the world state according to VARIABLES
 

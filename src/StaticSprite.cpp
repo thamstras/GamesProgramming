@@ -40,6 +40,7 @@ StaticSprite::StaticSprite(const StaticSprite & other)
 
 StaticSprite::~StaticSprite()
 {
+	std::cout << "Destorying Sprite. THIS IS PROBABLY BAD!!!\n";
 	SDL_DestroyTexture(this->_tex);
 }
 
