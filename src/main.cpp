@@ -72,8 +72,8 @@ void initThings()
 	}
 	std::cout << "SDL CreatedWindow OK!\n";
 
-	//ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+	ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	//ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 	if (ren == nullptr)
 	{
 		std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
@@ -99,7 +99,7 @@ void initText()
 void initSprites()
 {
 	std::string path = "./assets/PixelPlanets.png";
-	GravObj* Earth(new GravObj(path, ren, 100000, glm::vec2(150, 50)));
+	GravObj* Earth(new GravObj(path, ren, 100000, glm::vec2(300, 100)));
 	Earth->setSrcRect(SDL_Rect { 77, 71, 32, 32 });
 	Earth->setGrav(glm::dvec2(300, 300), 5);
 	objectList.push_back(Earth);
@@ -178,7 +178,7 @@ void postRender()
 	auto lastFrameTime = frameStart.time_since_epoch() - lastFrameStart.time_since_epoch();
 	lft = lastFrameTime.count() / 1000000000.0f;
 	double fps = 1.0f / lft;
-	//std::cout << "\r" << lft << "\t" << fps << "          ";
+	std::cout << "\r" << lft << "\t" << fps << "          ";
 }
 
 int main( int argc, char* args[] )
@@ -195,7 +195,7 @@ int main( int argc, char* args[] )
 		frameStart = std::chrono::high_resolution_clock::now();
 		handleInput(); // this should ONLY SET VARIABLES
 
-		updateSimulation(lft / 1000.0f); // this should ONLY SET VARIABLES according to simulation
+		updateSimulation(lft); // this should ONLY SET VARIABLES according to simulation
 
 		render(); // this should render the world state according to VARIABLES
 

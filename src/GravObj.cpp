@@ -5,6 +5,7 @@ GravObj::GravObj(std::string path, SDL_Renderer * ren, double mass, glm::dvec2 p
 	sprite = new StaticSprite(path, ren);
 	this->position = pos;
 	this->mass = mass;
+	this->velocity = glm::vec2(100, 0);
 }
 
 GravObj::~GravObj()
@@ -15,15 +16,24 @@ GravObj::~GravObj()
 
 void GravObj::update(double simLength)
 {
+	if (simLength < 0.00001 || simLength > 2)
+		return;
+	//simLength = 0.016;
+	double sunMass = 500.0f;
+	double earthMass = 0.001f;
+	double gravConst = 1.0f;
+
 	//std::cout << "GravObj::update called. Obj at: " << position.x << " " << position.y << "\n";
 	glm::dvec2 force = glm::vec2(0);
 
-	glm::dvec2 gravForce = gravSrc - position;
+	glm::dvec2 gravForceDirec = glm::normalize(gravSrc - position);
+	double radius = (gravSrc - position).length();
 	//double gravForceMag = mass*gravMass / (gravForce.length()*gravForce.length());
-	double gravForceMag = 1;
-	force += gravForce * gravForceMag;
+	//double gravForceMag = 1;
+	double gravForceMag = (gravConst * earthMass * sunMass) / (radius * radius);
+	force += gravForceDirec * gravForceMag;
 
-	glm::dvec2 accel = force / mass;
+	glm::dvec2 accel = force / earthMass;
 	velocity += accel * simLength;
 	position += velocity * simLength;
 	sprite->moveSprite(position.x, position.y);
