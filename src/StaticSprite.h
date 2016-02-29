@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
+#pragma once
+
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
 #include <iostream>
@@ -28,6 +30,7 @@ public:
 	void scaleSprite(float xScale, float yScale);
 
 protected:
+	
 	int _x;
 	int _y;
 	float _scaleX;
