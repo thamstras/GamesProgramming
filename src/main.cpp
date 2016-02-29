@@ -20,6 +20,7 @@
 #include "StaticSprite.h"
 #include "AnimatedSprite.h"
 #include "TextSprite.h"
+#include "Scene.h"
 
 //typedef std::chrono::high_resolution_clock Clock;
 //typedef std::chrono::nanoseconds Duration;
@@ -92,6 +93,8 @@ void initText()
 	text->setScale(0.4f);
 	text->moveString(0, 0);
 	objectList.push_back(text);
+	Scene::RenderList.push_back(text);
+
 
 }
 void makePlayer(int x, int y)
