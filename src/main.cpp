@@ -72,8 +72,8 @@ void initThings()
 	}
 	std::cout << "SDL CreatedWindow OK!\n";
 
-	ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	//ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+	//ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 	if (ren == nullptr)
 	{
 		std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
@@ -103,6 +103,11 @@ void initSprites()
 	Earth->setSrcRect(SDL_Rect { 77, 71, 32, 32 });
 	Earth->setGrav(glm::dvec2(300, 300), 5);
 	objectList.push_back(Earth);
+
+	StaticSprite* Sun(new StaticSprite(path, ren));
+	Sun->setSrcRect(SDL_Rect{ 77, 71, 32, 32 });
+	Sun->moveSprite(300, 300);
+	objectList.push_back(Sun);
 }
 
 void handleInput()
@@ -152,9 +157,15 @@ void handleInput()
 // tag::updateSimulation[]
 void updateSimulation(double simLength = 0.02) //update simulation with an amount of time to simulate for (in seconds)
 {
-	for (auto const& object : objectList)
+	int speedUp = 4;
+	int stepsPerFrame = 128;
+	double multiplierInv = speedUp* 1.0 / stepsPerFrame;
+	for (int i = 0; i < stepsPerFrame; ++i)
 	{
-		object->update(simLength);
+		for (auto const& object : objectList)
+		{
+			object->update(simLength * multiplierInv);
+		}
 	}
 }
 
