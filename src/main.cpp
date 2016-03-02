@@ -17,6 +17,7 @@
 #endif
 
 #include "RenderObject.h"
+#include "PhysObj.h"
 #include "StaticSprite.h"
 #include "AnimatedSprite.h"
 #include "TextSprite.h"
@@ -93,7 +94,7 @@ void initText()
 	text->setScale(0.4f);
 	text->moveString(0, 0);
 	objectList.push_back(text);
-	Scene::RenderList.push_back(text);
+	//Scene::RenderList.push_back(text);
 
 
 }
