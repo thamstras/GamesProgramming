@@ -3,7 +3,13 @@
 Ball::Ball(SDL_Renderer* ren)
 {
 	phys = new DronePhys();
-	sprite = new StaticSprite("assets\ball.png", ren);
+	sprite = new StaticSprite("./assets/ball.png", ren);
+	phys->mass = 1.0f;
+	phys->radius = 32.0f;
+	this->_position = glm::vec2(150, 150);
+	this->_velocity = glm::vec2(10, 10);
+	Scene::getScene().registerPhys(phys);
+	Scene::getScene().registerRender(this);
 }
 
 Ball::~Ball()

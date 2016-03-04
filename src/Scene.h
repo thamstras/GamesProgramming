@@ -9,17 +9,19 @@
 class Scene
 {
 public:
-	static Scene& getScene() { return _theScene; };
+	static Scene& getScene();
 	std::vector<PhysObj *> PhysList;
 	std::vector<RenderObject *> RenderList;
 	std::map<std::string, std::string> SceneData;
-	Scene();
-	~Scene();
+	
 	int registerPhys(PhysObj * obj);
 	int registerRender(RenderObject * obj);
 	void runUpdate(double simLength);
+	void render(SDL_Renderer* ren);
 
 private:
-	static Scene _theScene;
+	Scene() {};
+
+	static Scene* _theScene;
 };
 

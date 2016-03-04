@@ -22,6 +22,8 @@
 #include "AnimatedSprite.h"
 #include "TextSprite.h"
 #include "Scene.h"
+#include "Ball.h"
+
 
 //typedef std::chrono::high_resolution_clock Clock;
 //typedef std::chrono::nanoseconds Duration;
@@ -37,6 +39,9 @@ std::vector<RenderObject*> objectList;
 bool done = false;
 bool key = false;
 bool clearSprites = false;
+
+Ball* aball;
+//Ball* bball;
 
 //Time_Point frameStart;
 //Time_Point lastFrameStart;
@@ -138,6 +143,8 @@ void initSprites()
 	logo->playAnim(a);
 
 	objectList.push_back(logo);
+
+	aball = new Ball(ren);
 }
 
 void handleInput()
@@ -201,6 +208,7 @@ void updateSimulation(double simLength = 0.02) //update simulation with an amoun
 		objectList.clear();
 		clearSprites = false;
 	}
+	Scene::getScene().runUpdate(simLength);
 }
 
 void render()

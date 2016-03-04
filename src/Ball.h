@@ -6,6 +6,8 @@
 #include "PhysObj.h"
 #include "DronePhys.h"
 #include "SDL.h"
+#include "Scene.h"
+
 class Ball : public RenderObject
 {
 public:

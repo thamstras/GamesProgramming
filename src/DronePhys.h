@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include <iostream>
-#include "Scene.h"
 #include "PhysObj.h"
+#include "Scene.h"
 
 class DronePhys : public PhysObj
 {
@@ -12,6 +12,7 @@ public:
 	void tickPhysics(double simLength);
 	void updatePhysics();
 	double radius;
+	double mass;
 private:
 
 };
