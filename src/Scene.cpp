@@ -1,5 +1,8 @@
 #include "Scene.h"
 
+#include <iostream>
+#include <string>
+
 Scene* Scene::_theScene;
 
 Scene& Scene::getScene() 
@@ -11,12 +14,14 @@ Scene& Scene::getScene()
 int Scene::registerPhys(PhysObj * obj)
 {
 	PhysList.push_back(obj);
+	std::cout << "Registered Phys Object: " << &obj << std::endl;
 	return 0;
 }
 
 int Scene::registerRender(RenderObject * obj)
 {
 	RenderList.push_back(obj);
+	std::cout << "Registered Render Object: " << &obj << std::endl;
 	return 0;
 }
 

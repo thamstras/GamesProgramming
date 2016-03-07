@@ -1,15 +1,35 @@
 #include "DronePhys.h"
 
+#include <iostream>
+
 DronePhys::DronePhys()
 {
+	std::cout << "DronePhys::DronePhys() Called" << std::endl;
+}
+
+DronePhys::DronePhys(const DronePhys & other)
+{
+	std::cout << "DronePhys::DronePhys(const DronePhys & other) Called" << std::endl << "THIS IS PROBABLY BAD" << std::endl;
 }
 
 DronePhys::~DronePhys()
 {
+	std::cout << "DronePhys::~DronePhys() Called" << std::endl;
+	std::cout << "THIS IS BAD";
 }
 
 void DronePhys::tickPhysics(double simLength)
 {
+	if (simLength > 2.0f || simLength < 0.000001f)
+	{
+		_newVelocity = _velocity;
+		_newPosition = _position;
+		return;
+	}
+
+
+	_newVelocity = _velocity;
+	_newPosition = _position + _velocity * simLength;
 	std::vector<PhysObj *> physList = Scene::getScene().PhysList;
 	for (auto const& other : physList)
 	{

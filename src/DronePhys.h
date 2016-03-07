@@ -8,6 +8,7 @@ class DronePhys : public PhysObj
 {
 public:
 	DronePhys();
+	DronePhys(const DronePhys& other);
 	~DronePhys();
 	void tickPhysics(double simLength);
 	void updatePhysics();

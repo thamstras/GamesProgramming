@@ -15,9 +15,10 @@ public:
 	~Ball();
 	void update(double simLength);
 	void render(SDL_Renderer* ren);
+	DronePhys* phys;
+	StaticSprite* sprite;
 private:
 	glm::dvec2 _position;
 	glm::dvec2 _velocity;
-	DronePhys* phys;
-	StaticSprite* sprite;
+	
 };

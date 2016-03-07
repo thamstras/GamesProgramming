@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <iostream>
 
 #include "PhysObj.h"
 #include "RenderObject.h"
@@ -20,7 +21,7 @@ public:
 	void render(SDL_Renderer* ren);
 
 private:
-	Scene() {};
+	Scene() { std::cout << "Init Scene" << std::endl; };
 
 	static Scene* _theScene;
 };

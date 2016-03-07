@@ -34,7 +34,7 @@ SDL_Window *win; //pointer to the SDL_Window
 SDL_Renderer *ren; //pointer to the SDL_Renderer
 SDL_Surface *surface; //pointer to the SDL_Surface
 
-std::vector<RenderObject*> objectList;
+//std::vector<RenderObject*> objectList;
 
 bool done = false;
 bool key = false;
@@ -98,7 +98,8 @@ void initText()
 	TextSprite* text(new TextSprite("./assets/Hack-Regular.ttf", 96, "Hello, World!", ren));
 	text->setScale(0.4f);
 	text->moveString(0, 0);
-	objectList.push_back(text);
+	//objectList.push_back(text);
+	Scene::getScene().registerRender(text);
 	//Scene::RenderList.push_back(text);
 
 
@@ -127,7 +128,8 @@ void makePlayer(int x, int y)
 	sprite->playAnim(walk);
 	sprite->moveSprite(x, y);
 
-	objectList.push_back(sprite);
+	//objectList.push_back(sprite);
+	Scene::getScene().registerRender(sprite);
 }
 void initSprites()
 {
@@ -142,9 +144,11 @@ void initSprites()
 	logo->setFrameRate(10);
 	logo->playAnim(a);
 
-	objectList.push_back(logo);
+	//objectList.push_back(logo);
+	Scene::getScene().registerRender(logo);
 
 	aball = new Ball(ren);
+	Scene::getScene().registerRender(aball);
 }
 
 void handleInput()
@@ -194,7 +198,7 @@ void handleInput()
 // tag::updateSimulation[]
 void updateSimulation(double simLength = 0.02) //update simulation with an amount of time to simulate for (in seconds)
 {
-	for (auto const& object : objectList)
+	/*for (auto const& object : objectList)
 	{
 		object->update(simLength);
 	}
@@ -202,12 +206,12 @@ void updateSimulation(double simLength = 0.02) //update simulation with an amoun
 	{
 		makePlayer(rand() % 500, rand() % 500);
 		key = false;
-	}
-	if (clearSprites)
+	}*/
+	/*if (clearSprites)
 	{
 		objectList.clear();
 		clearSprites = false;
-	}
+	}*/
 	Scene::getScene().runUpdate(simLength);
 }
 
@@ -217,10 +221,12 @@ void render()
 		SDL_RenderClear(ren);
 
 		//Draw things
-		for (auto const& object : objectList)
+		/*for (auto const& object : objectList)
 		{
 			object->render(ren);
-		}
+		}*/
+
+		Scene::getScene().render(ren);
 
 		//Update the screen
 		SDL_RenderPresent(ren);
