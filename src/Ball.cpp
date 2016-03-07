@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Ball::Ball(SDL_Renderer* ren)
+Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel)
 {
 	std::cout << "Ball::Ball(SDL_Renderer* ren) Called" << std::endl;
 
@@ -10,10 +10,10 @@ Ball::Ball(SDL_Renderer* ren)
 	sprite = new StaticSprite("./assets/ball.png", ren);
 	phys->mass = 1.0f;
 	phys->radius = 32.0f;
-	phys->_position = glm::vec2(150, 150);
-	phys->_velocity = glm::vec2(10, 10);
-	this->_position = glm::vec2(150, 150);
-	this->_velocity = glm::vec2(10, 10);
+	phys->_position = pos;
+	phys->_velocity = vel;
+	this->_position = pos;
+	this->_velocity = vel;
 	Scene::getScene().registerPhys(phys);
 	//Scene::getScene().registerRender(this);
 }
