@@ -132,8 +132,20 @@ void initText()
 void initSound()
 {
 	music = Mix_LoadMUS("./assets/music.mp3");
+	if (music == NULL)
+	{
+		std::cout << "Error loading Music. Music will not play." << std::endl;
+	}
 	sound = Mix_LoadWAV("./assets/falling.wav");
+	if (sound == NULL)
+	{
+		std::cout << "Error loading Falling. Sound will not play." << std::endl;
+	}
 	sound2 = Mix_LoadWAV("./assets/explosion.wav");
+	if (sound2 == NULL)
+	{
+		std::cout << "Error loading Explosion. Sound will not play." << std::endl;
+	}
 }
 
 void makePlayer(int x, int y)
@@ -253,7 +265,14 @@ void updateSimulation(double simLength = 0.02) //update simulation with an amoun
 	Scene::getScene().runUpdate(simLength);
 	if (one)
 	{
-		Mix_PlayMusic(music, -1);
+		if (Mix_PlayingMusic())
+		{
+			Mix_FadeOutMusic(500);
+		}
+		else
+		{
+			Mix_PlayMusic(music, -1);
+		}
 		one = false;
 	}
 	if (two)
