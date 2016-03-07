@@ -27,9 +27,7 @@ void DronePhys::tickPhysics(double simLength)
 		return;
 	}
 
-
 	_newVelocity = _velocity;
-	_newPosition = _position + _velocity * simLength;
 	std::vector<PhysObj *> physList = Scene::getScene().PhysList;
 	for (auto const& other : physList)
 	{
@@ -48,10 +46,11 @@ void DronePhys::tickPhysics(double simLength)
 			//collision resolve
 			if (colliding)
 			{
-				glm::dvec2 impactVector = glm::normalize(otherDrone->_position - this->_position);
-				double ourImpactComponent = glm::dot(impactVector, this->_velocity);
-				double theirImpactComponent = glm::dot(impactVector, otherDrone->_velocity);
-				double newComponent = (ourImpactComponent * (this->mass - otherDrone->mass) + 2 * otherDrone->mass * theirImpactComponent) / (this->mass + otherDrone->mass);
+				glm::dvec2 impactVector = glm::normalize(otherDrone->_position - this->_position);	//vector from them to us
+				double ourImpactComponent = glm::dot(impactVector, this->_velocity);				//the component of our velocity along the impact vector
+				double theirImpactComponent = glm::dot(impactVector, otherDrone->_velocity);		//the component of their velocity along the impact vector
+				//double newComponent = (ourImpactComponent * (this->mass - otherDrone->mass) + 2 * otherDrone->mass * theirImpactComponent) / (this->mass + otherDrone->mass);
+				double newComponent = ((ourImpactComponent * (this->mass - otherDrone->mass)) +  (2* otherDrone->mass * theirImpactComponent)) / (this->mass + otherDrone->mass);
 				glm::dvec2 deltaVelocity = (newComponent-ourImpactComponent) * impactVector;
 				this->_newVelocity += deltaVelocity;
 
@@ -62,6 +61,7 @@ void DronePhys::tickPhysics(double simLength)
 			std::cout << "Unrecognised PhysObj in PhysList";
 		}
 	}
+	_newPosition = _position + _newVelocity * simLength;
 }
 
 void DronePhys::updatePhysics()

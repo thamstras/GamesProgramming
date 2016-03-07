@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel)
+Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel, double mass)
 {
 	std::cout << "Ball::Ball(SDL_Renderer* ren) Called" << std::endl;
 
