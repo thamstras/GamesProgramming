@@ -15,7 +15,7 @@ DronePhys::DronePhys(const DronePhys & other)
 DronePhys::~DronePhys()
 {
 	std::cout << "DronePhys::~DronePhys() Called" << std::endl;
-	std::cout << "THIS IS BAD";
+	std::cout << "THIS IS BAD" << std::endl;
 }
 
 void DronePhys::tickPhysics(double simLength)

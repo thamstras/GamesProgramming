@@ -20,6 +20,8 @@ public:
 	void runUpdate(double simLength);
 	void render(SDL_Renderer* ren);
 
+	void cleanup();
+
 private:
 	Scene() { std::cout << "Init Scene" << std::endl; };
 

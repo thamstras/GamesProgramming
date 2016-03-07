@@ -48,7 +48,7 @@ bool one = false;
 bool two = false;
 bool three = false;
 
-Ball* aball;
+//Ball* aball;
 //Ball* bball;
 
 //Time_Point frameStart;
@@ -60,8 +60,19 @@ double lft;
 
 void cleanExit(int returnValue)
 {
+
+	Scene::getScene().cleanup();
+
+	if (music != NULL)
+		Mix_FreeMusic(music);
+	if (sound != NULL)
+		Mix_FreeChunk(sound);
+	if (sound2 != NULL)
+		Mix_FreeChunk(sound2);
+
 	if (ren != nullptr) SDL_DestroyRenderer(ren);
 	if (win != nullptr) SDL_DestroyWindow(win);
+
 	Mix_CloseAudio();
 	Mix_Quit();
 	SDL_Quit();
@@ -191,7 +202,7 @@ void initSprites()
 	//objectList.push_back(logo);
 	Scene::getScene().registerRender(logo);
 
-	aball = new Ball(ren, glm::vec2(150, 150), glm::vec2(10, 10), 1.0f);
+	Ball* aball = new Ball(ren, glm::vec2(150, 150), glm::vec2(10, 10), 1.0f);
 	Scene::getScene().registerRender(aball);
 
 	Ball* ball2 = new Ball(ren, glm::vec2(450, 450), glm::vec2(-20, -20), 2.0f);

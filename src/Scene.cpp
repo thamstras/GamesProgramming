@@ -48,3 +48,17 @@ void Scene::render(SDL_Renderer* ren)
 		object->render(ren);
 	}
 }
+
+void Scene::cleanup()
+{
+	for (auto obj : PhysList)
+	{
+		delete obj;
+	}
+	PhysList.clear();
+	for (auto obj : RenderList)
+	{
+		delete obj;
+	}
+	RenderList.clear();
+}
