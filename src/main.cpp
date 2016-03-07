@@ -9,6 +9,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 #else // NOT compiling on windows
 #include <SDL2/SDL.h>
@@ -34,11 +35,18 @@ SDL_Window *win; //pointer to the SDL_Window
 SDL_Renderer *ren; //pointer to the SDL_Renderer
 SDL_Surface *surface; //pointer to the SDL_Surface
 
+Mix_Music *music;
+Mix_Chunk *sound;
+Mix_Chunk *sound2;
+
 //std::vector<RenderObject*> objectList;
 
 bool done = false;
 bool key = false;
 bool clearSprites = false;
+bool one = false;
+bool two = false;
+bool three = false;
 
 Ball* aball;
 //Ball* bball;
@@ -54,6 +62,8 @@ void cleanExit(int returnValue)
 {
 	if (ren != nullptr) SDL_DestroyRenderer(ren);
 	if (win != nullptr) SDL_DestroyWindow(win);
+	Mix_CloseAudio();
+	Mix_Quit();
 	SDL_Quit();
 	exit(returnValue);
 }
@@ -85,6 +95,20 @@ void initThings()
 		std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
 		cleanExit(1);
 	}
+
+	int mixFlags = MIX_INIT_MP3 | MIX_INIT_OGG;
+	int mixInit = Mix_Init(mixFlags);
+	if (mixInit&mixFlags != mixFlags)
+	{
+		std::cout << "Error Loading SDL_mixer: " << Mix_GetError() << std::endl;
+		cleanExit(1);
+	}
+
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
+	{
+		std::cout << "Error opening Audio: " << Mix_GetError() << std::endl;
+		cleanExit(1);
+	}
 }
 
 void initText()
@@ -104,6 +128,14 @@ void initText()
 
 
 }
+
+void initSound()
+{
+	music = Mix_LoadMUS("./assets/music.mp3");
+	sound = Mix_LoadWAV("./assets/falling.wav");
+	sound2 = Mix_LoadWAV("./assets/explosion.wav");
+}
+
 void makePlayer(int x, int y)
 {
 	std::string path = "./assets/p1_spritesheet.png";
@@ -188,6 +220,9 @@ void handleInput()
 				case SDLK_ESCAPE: done = true; break;
 				case SDLK_SPACE: key = true; break;
 				case SDLK_r: clearSprites = true; break;
+				case SDLK_1: one = true; break;
+				case SDLK_2: two = true; break;
+				case SDLK_3: three = true; break;
 				}
 			break;
 		}
@@ -213,6 +248,21 @@ void updateSimulation(double simLength = 0.02) //update simulation with an amoun
 		clearSprites = false;
 	}*/
 	Scene::getScene().runUpdate(simLength);
+	if (one)
+	{
+		Mix_PlayMusic(music, -1);
+		one = false;
+	}
+	if (two)
+	{
+		Mix_PlayChannel(-1, sound, 0);
+		two = false;
+	}
+	if (three)
+	{
+		Mix_PlayChannel(-1, sound2, 0);
+		three = false;
+	}
 }
 
 void render()
@@ -246,6 +296,7 @@ int main( int argc, char* args[] )
 
 	initText();
 	initSprites();
+	initSound();
 
 	
 
