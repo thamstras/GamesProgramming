@@ -15,7 +15,6 @@ Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel, double mass)
 	this->_position = pos;
 	this->_velocity = vel;
 	Scene::getScene().registerPhys(phys);
-	//Scene::getScene().registerRender(this);
 }
 
 Ball::~Ball()
