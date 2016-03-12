@@ -252,6 +252,13 @@ void handleInput()
 			break;
 		}
 	}
+
+	int x = 0;
+	int y = 0;
+	Uint32 buttonMask = SDL_GetMouseState(&x, &y);
+	bool leftButton = buttonMask & SDL_BUTTON(SDL_BUTTON_LEFT);
+	bool rightButton = buttonMask & SDL_BUTTON(SDL_BUTTON_RIGHT);
+	Scene::getScene().updateMouseData(x, y, leftButton, rightButton);
 }
 // end::handleInput[]
 

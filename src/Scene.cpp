@@ -11,6 +11,33 @@ Scene& Scene::getScene()
 	return *_theScene;
 }
 
+// Intended to be called once per frame from the main loop by the input handling.
+// Responsible for updating mouse state and setting/unsetting the single press inputs.
+void Scene::updateMouseData(float x, float y, bool left, bool right)
+{
+	mouseData.leftMouseOnce = false;
+	mouseData.rightMouseOnce = false;
+
+	mouseData.mouseX = x;
+	mouseData.mouseY = y;
+	if (mouseData.leftMouse != left)
+	{
+		mouseData.leftMouse = left;
+		if (left)
+		{
+			mouseData.leftMouseOnce = true;
+		}
+	}
+	if (mouseData.rightMouse != right)
+	{
+		mouseData.rightMouse = right;
+		if (right)
+		{
+			mouseData.rightMouseOnce = true;
+		}
+	}
+}
+
 int Scene::registerPhys(PhysObj * obj)
 {
 	PhysList.push_back(obj);
