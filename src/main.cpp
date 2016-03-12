@@ -33,7 +33,7 @@
 std::string exeName;
 SDL_Window *win; //pointer to the SDL_Window
 SDL_Renderer *ren; //pointer to the SDL_Renderer
-SDL_Surface *surface; //pointer to the SDL_Surface
+//SDL_Surface *surface; //pointer to the SDL_Surface
 
 Mix_Music *music;
 Mix_Chunk *sound;
