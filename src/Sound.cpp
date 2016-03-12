@@ -13,7 +13,7 @@ void Sound::initSound()
 {
 	int mixFlags = MIX_INIT_MP3 | MIX_INIT_OGG;
 	int mixInit = Mix_Init(mixFlags);
-	if (mixInit&mixFlags != mixFlags)
+	if ((mixInit & mixFlags) != mixFlags)
 	{
 		std::cout << "Error Loading SDL_mixer: " << Mix_GetError() << std::endl;
 		//cleanExit(1);
@@ -47,7 +47,7 @@ void Sound::loadSounds()
 
 int Sound::loadSound(std::string path, std::string name)
 {
-	Mix_Chunk* sound = Mix_LoadWAV(path.c_str);
+	Mix_Chunk* sound = Mix_LoadWAV(path.c_str());
 	if (sound == NULL)
 	{
 		std::cout << "Error loading Falling. Sound will not play." << std::endl;
