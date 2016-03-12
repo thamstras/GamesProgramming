@@ -28,6 +28,7 @@ void DronePhys::tickPhysics(double simLength)
 	}
 
 	_newVelocity = _velocity;
+
 	std::vector<PhysObj *> physList = Scene::getScene().PhysList;
 	for (auto const& other : physList)
 	{
@@ -60,6 +61,17 @@ void DronePhys::tickPhysics(double simLength)
 			std::cout << "Unrecognised PhysObj in PhysList";
 		}
 	}
+
+	WorldBounds bounds = Scene::getScene().bounds;
+	if (_position.x - radius <= bounds.minX || _position.x + radius >= bounds.maxX)
+	{
+		_newVelocity.x = -1 * _newVelocity.x;
+	}
+	if (_position.y - radius <= bounds.minY || _position.y + radius >= bounds.maxY)
+	{
+		_newVelocity.y = -1 * _newVelocity.y;
+	}
+
 	_newPosition = _position + _newVelocity * simLength;
 }
 

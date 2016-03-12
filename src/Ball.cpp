@@ -26,7 +26,8 @@ void Ball::update(double simLength)
 {
 	_position = phys->_position;
 	_velocity = phys->_velocity;
-	sprite->moveSprite((int)_position.x, (int)_position.y);
+	auto radius = phys->radius;
+	sprite->moveSprite((int)(_position.x-radius), (int)(_position.y-radius));
 }
 
 void Ball::render(SDL_Renderer * ren)

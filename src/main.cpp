@@ -195,11 +195,17 @@ void initSprites()
 
 	Scene::getScene().registerRender(logo);
 
-	Ball* aball = new Ball(ren, glm::vec2(150, 150), glm::vec2(20, 20), 1.0f);
+	Ball* aball = new Ball(ren, glm::vec2(150, 150), glm::vec2(30, 30), 1.0f);
 	Scene::getScene().registerRender(aball);
 
-	Ball* ball2 = new Ball(ren, glm::vec2(450, 450), glm::vec2(-20, -20), 2.0f);
+	Ball* ball2 = new Ball(ren, glm::vec2(450, 450), glm::vec2(-30, 30), 2.0f);
 	Scene::getScene().registerRender(ball2);
+
+	Ball* ball3 = new Ball(ren, glm::vec2(500, 500), glm::vec2(-30, -30), 2.0f);
+	Scene::getScene().registerRender(ball3);
+
+	Ball* ball4 = new Ball(ren, glm::vec2(100, 100), glm::vec2(30, -30), 2.0f);
+	Scene::getScene().registerRender(ball4);
 }
 
 void handleInput()
