@@ -24,7 +24,7 @@ public:
 
 	glm::dvec2 forceAcc = glm::dvec2(0.0f);
 
-	double inputForceTweak = 1000.0f;
+	double inputForceTweak = 100.0f; //tODO make bibgger?
 	double airResist = 0.2f;
 private:
 

@@ -25,7 +25,7 @@ void DronePhys::preStep()
 	_newPosition = _position;
 	_newVelocity = _velocity;
 
-	forceAcc = glm::dvec2(0.0f);
+	forceAcc = glm::dvec2(0.0f, 0.0f);
 
 	inputAxisX = 0.0f;
 	inputAxisX = 0.0f;
@@ -108,13 +108,14 @@ void DronePhys::tickPhysics(double simLength)
 	glm::dvec2 inputForce = glm::dvec2(inputAxisX * inputForceTweak, inputAxisY * inputForceTweak);
 	forceAcc += inputForce;
 
-	glm::dvec2 airResistForce = (_velocity * _velocity) * -airResist;
-	forceAcc += airResistForce;
+	glm::dvec2 airResistForce = (_velocity * _velocity) * - airResist; //tODO use the magnitude squared for the magnitude, and the normalised vector for the direction
+	//forceAcc += airResistForce;
 
-	glm::dvec2 overallDeltaV = glm::dvec2((forceAcc.x / mass)*simLength, (forceAcc.y / mass)*simLength);
+	glm::dvec2 overallAccel = forceAcc / mass;
+	glm::dvec2 overallDeltaV = overallAccel * simLength;
 	
 	_newVelocity = _velocity + overallDeltaV;
-	_newPosition = _position + _newVelocity * simLength;
+	_newPosition = _position + (_newVelocity * simLength);
 
 	std::cout <<"\r"<< _newVelocity.x << "\t" << _newVelocity.y << "\t" << inputAxisX << "\t" << inputAxisY;
 }
