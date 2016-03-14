@@ -56,3 +56,15 @@ int Sound::loadSound(std::string path, std::string name)
 	chunkMap.insert(std::pair<std::string, Mix_Chunk*>(name, sound));
 	return 0;
 }
+
+int Sound::playSound(std::string name)
+{
+	Mix_Chunk* chunk = chunkMap.at(name);
+	if (chunk == NULL)
+	{
+		std::cout << "ERROR! tried to play nonloaded sound: " << name << std::endl;
+		return -1;
+	}
+	Mix_PlayChannel(-1, chunk, 0);
+	return 0;
+}

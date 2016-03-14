@@ -16,6 +16,7 @@ public:
 	void loadSounds();
 
 	int loadSound(std::string path, std::string name);
+	int playSound(std::string name);
 
 private:
 	std::map<std::string, Mix_Chunk*> chunkMap;
