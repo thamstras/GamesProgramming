@@ -35,9 +35,9 @@ SDL_Window *win; //pointer to the SDL_Window
 SDL_Renderer *ren; //pointer to the SDL_Renderer
 //SDL_Surface *surface; //pointer to the SDL_Surface
 
-Mix_Music *music;
+/*Mix_Music *music;
 Mix_Chunk *sound;
-Mix_Chunk *sound2;
+Mix_Chunk *sound2;*/
 
 //std::vector<RenderObject*> objectList;
 
@@ -60,12 +60,12 @@ void cleanExit(int returnValue)
 
 	Scene::getScene().cleanup();
 
-	if (music != NULL)
+	/*if (music != NULL)
 		Mix_FreeMusic(music);
 	if (sound != NULL)
 		Mix_FreeChunk(sound);
 	if (sound2 != NULL)
-		Mix_FreeChunk(sound2);
+		Mix_FreeChunk(sound2);*/
 
 	if (ren != nullptr) SDL_DestroyRenderer(ren);
 	if (win != nullptr) SDL_DestroyWindow(win);
@@ -137,21 +137,11 @@ void initText()
 
 void initSound()
 {
-	music = Mix_LoadMUS("./assets/music.mp3");
-	if (music == NULL)
-	{
-		std::cout << "Error loading Music. Music will not play." << std::endl;
-	}
-	sound = Mix_LoadWAV("./assets/falling.wav");
-	if (sound == NULL)
-	{
-		std::cout << "Error loading Falling. Sound will not play." << std::endl;
-	}
-	sound2 = Mix_LoadWAV("./assets/explosion.wav");
-	if (sound2 == NULL)
-	{
-		std::cout << "Error loading Explosion. Sound will not play." << std::endl;
-	}
+	Sound* sound = Scene::getScene().sound;
+	sound->initSound();
+	sound->loadSounds();
+	sound->loadSound("./assets/falling.wav", "falling");
+	sound->loadSound("./assets/explosion.wav", "explosion");
 }
 
 void makePlayer(int x, int y)
@@ -196,20 +186,24 @@ void initSprites()
 	Scene::getScene().registerRender(logo);
 
 	Ball* aball = new Ball(ren, glm::vec2(150, 150), glm::vec2(30, 30), 1.0f);
+	aball->bindPlayer(1);
 	Scene::getScene().registerRender(aball);
 
-	Ball* ball2 = new Ball(ren, glm::vec2(450, 450), glm::vec2(-30, 30), 2.0f);
-	Scene::getScene().registerRender(ball2);
+	//Ball* ball2 = new Ball(ren, glm::vec2(450, 450), glm::vec2(-30, 30), 2.0f);
+	//Scene::getScene().registerRender(ball2);
 
-	Ball* ball3 = new Ball(ren, glm::vec2(500, 500), glm::vec2(-30, -30), 2.0f);
-	Scene::getScene().registerRender(ball3);
+	//Ball* ball3 = new Ball(ren, glm::vec2(500, 500), glm::vec2(-30, -30), 2.0f);
+	//Scene::getScene().registerRender(ball3);
 
-	Ball* ball4 = new Ball(ren, glm::vec2(100, 100), glm::vec2(30, -30), 2.0f);
-	Scene::getScene().registerRender(ball4);
+	//Ball* ball4 = new Ball(ren, glm::vec2(100, 100), glm::vec2(30, -30), 2.0f);
+	//Scene::getScene().registerRender(ball4);
 }
 
 void handleInput()
 {
+	float p1_axis_X = 0.0f;
+	float p1_axis_Y = 0.0f;
+
 	/*//Event-based input handling
 	//The underlying OS is event-based, so **each** key-up or key-down (for example)
 	//generates an event.
@@ -239,16 +233,28 @@ void handleInput()
 			//  - in our case, we're going to ignore repeat events
 			//  - https://wiki.libsdl.org/SDL_KeyboardEvent
 			if (!event.key.repeat)
+			{
 				switch (event.key.keysym.sym)
 				{
 					//hit escape to exit
 				case SDLK_ESCAPE: done = true; break;
 				case SDLK_SPACE: key = true; break;
 				case SDLK_r: clearSprites = true; break;
+
 				case SDLK_1: one = true; break;
 				case SDLK_2: two = true; break;
 				case SDLK_3: three = true; break;
 				}
+			}
+			else {
+				switch (event.key.keysym.sym)
+				{
+				case SDLK_w: p1_axis_Y -= 1.0f; break;
+				case SDLK_s: p1_axis_Y += 1.0f; break;
+				case SDLK_a: p1_axis_X -= 1.0f; break;
+				case SDLK_d: p1_axis_X += 1.0f; break;
+				}
+			}
 			break;
 		}
 	}
@@ -259,13 +265,20 @@ void handleInput()
 	bool leftButton = buttonMask & SDL_BUTTON(SDL_BUTTON_LEFT);
 	bool rightButton = buttonMask & SDL_BUTTON(SDL_BUTTON_RIGHT);
 	Scene::getScene().updateMouseData(x, y, leftButton, rightButton);
+
+	p1_axis_X = 1.0f;
+	Scene::getScene().p1_axis_Y = p1_axis_Y;
+	Scene::getScene().P1_axis_X = p1_axis_X;
 }
 // end::handleInput[]
 
 // tag::updateSimulation[]
 void updateSimulation(double simLength = 0.02) //update simulation with an amount of time to simulate for (in seconds)
 {
-	Scene::getScene().runUpdate(simLength);
+	Scene scene = Scene::getScene();
+	Sound* sound = scene.sound;
+
+	scene.runUpdate(simLength);
 	if (one)
 	{
 		if (Mix_PlayingMusic())
@@ -274,18 +287,18 @@ void updateSimulation(double simLength = 0.02) //update simulation with an amoun
 		}
 		else
 		{
-			Mix_PlayMusic(music, -1);
+			//Mix_PlayMusic(music, -1);
 		}
 		one = false;
 	}
 	if (two)
 	{
-		Mix_PlayChannel(-1, sound, 0);
+		sound->playSound("falling");
 		two = false;
 	}
 	if (three)
 	{
-		Mix_PlayChannel(-1, sound2, 0);
+		sound->playSound("explosion");
 		three = false;
 	}
 }

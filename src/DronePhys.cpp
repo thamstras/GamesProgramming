@@ -18,22 +18,45 @@ DronePhys::~DronePhys()
 	std::cout << "THIS IS BAD" << std::endl;
 }
 
+void DronePhys::preStep()
+{
+	collided = false;
+
+	_newPosition = _position;
+	_newVelocity = _velocity;
+
+	forceAcc = glm::dvec2(0.0f);
+
+	inputAxisX = 0.0f;
+	inputAxisX = 0.0f;
+	if (playerBind == 1)
+	{
+		inputAxisX = Scene::getScene().P1_axis_X;
+		inputAxisY = Scene::getScene().p1_axis_Y;
+	}
+	else if (playerBind == 2)
+	{
+		inputAxisX = Scene::getScene().p2_axis_X;
+		inputAxisY = Scene::getScene().p2_axis_Y;
+	}
+}
+
 void DronePhys::tickPhysics(double simLength)
 {
-	if (simLength > 2.0f || simLength < 0.000001f)
+	
+
+	if (simLength > 0.5f || simLength < 0.000001f)
 	{
-		_newVelocity = _velocity;
-		_newPosition = _position;
 		return;
 	}
 
-	_newVelocity = _velocity;
 
 	std::vector<PhysObj *> physList = Scene::getScene().PhysList;
 	for (auto const& other : physList)
 	{
 		if (other == this)
 			continue;
+
 		DronePhys* otherDrone = dynamic_cast<DronePhys*>(other);
 		if (otherDrone != 0)
 		{
@@ -47,12 +70,16 @@ void DronePhys::tickPhysics(double simLength)
 			//collision resolve
 			if (colliding)
 			{
+				collided = true;
+				
 				glm::dvec2 impactVector = glm::normalize(otherDrone->_position - this->_position);	//vector from them to us
 				double ourImpactComponent = glm::dot(impactVector, this->_velocity);				//the component of our velocity along the impact vector
 				double theirImpactComponent = glm::dot(impactVector, otherDrone->_velocity);		//the component of their velocity along the impact vector
 				double newComponent = ((ourImpactComponent * (this->mass - otherDrone->mass)) +  (2* otherDrone->mass * theirImpactComponent)) / (this->mass + otherDrone->mass);
 				glm::dvec2 deltaVelocity = (newComponent-ourImpactComponent) * impactVector;
-				this->_newVelocity += deltaVelocity;
+				glm::dvec2 force = (deltaVelocity * mass) / simLength;
+				forceAcc += force;
+				//this->_newVelocity += deltaVelocity;
 
 			}
 
@@ -65,17 +92,34 @@ void DronePhys::tickPhysics(double simLength)
 	WorldBounds bounds = Scene::getScene().bounds;
 	if (_position.x - radius <= bounds.minX || _position.x + radius >= bounds.maxX)
 	{
-		_newVelocity.x = -1 * _newVelocity.x;
+		//_newVelocity.x = -1 * _newVelocity.x;
+		glm::dvec2 deltaV = glm::dvec2(-2* _velocity.x, 0);
+		glm::dvec2 force = (deltaV * mass) / simLength;
+		forceAcc += force;
 	}
 	if (_position.y - radius <= bounds.minY || _position.y + radius >= bounds.maxY)
 	{
-		_newVelocity.y = -1 * _newVelocity.y;
+		//_newVelocity.y = -1 * _newVelocity.y;
+		glm::dvec2 deltaV = glm::dvec2(0, -2 * _velocity.y);
+		glm::dvec2 force = (deltaV * mass) / simLength;
+		forceAcc += force;
 	}
 
+	glm::dvec2 inputForce = glm::dvec2(inputAxisX * inputForceTweak, inputAxisY * inputForceTweak);
+	forceAcc += inputForce;
+
+	glm::dvec2 airResistForce = (_velocity * _velocity) * -airResist;
+	forceAcc += airResistForce;
+
+	glm::dvec2 overallDeltaV = glm::dvec2((forceAcc.x / mass)*simLength, (forceAcc.y / mass)*simLength);
+	
+	_newVelocity = _velocity + overallDeltaV;
 	_newPosition = _position + _newVelocity * simLength;
+
+	std::cout <<"\r"<< _newVelocity.x << "\t" << _newVelocity.y << "\t" << inputAxisX << "\t" << inputAxisY;
 }
 
-void DronePhys::updatePhysics()
+void DronePhys::postStep()
 {
 	_position = _newPosition;
 	_velocity = _newVelocity;

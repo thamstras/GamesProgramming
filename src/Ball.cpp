@@ -28,9 +28,29 @@ void Ball::update(double simLength)
 	_velocity = phys->_velocity;
 	auto radius = phys->radius;
 	sprite->moveSprite((int)(_position.x-radius), (int)(_position.y-radius));
+	if (phys->collided)
+	{
+		Scene::getScene().sound->playSound("explosion");
+	}
 }
 
 void Ball::render(SDL_Renderer * ren)
 {
 	sprite->render(ren);
+}
+
+void Ball::bindPlayer(int p)
+{
+	switch (p)
+	{
+	case 1:
+		phys->playerBind = 1;
+		break;
+	case 2:
+		phys->playerBind = 2;
+		break;
+	default:
+		phys->playerBind = 0;
+		break;
+	}
 }

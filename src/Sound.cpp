@@ -3,10 +3,12 @@
 
 Sound::Sound()
 {
+	std::cout << "Sound Init" << std::endl;
 }
 
 Sound::~Sound()
 {
+	std::cout << "Sound Destroyed" << std::endl;
 }
 
 void Sound::initSound()
@@ -33,7 +35,7 @@ void Sound::loadSounds()
 	{
 		std::cout << "Error loading Music. Music will not play." << std::endl;
 	}
-	Mix_Chunk* sound = Mix_LoadWAV("./assets/falling.wav");
+	/*Mix_Chunk* sound = Mix_LoadWAV("./assets/falling.wav");
 	if (sound == NULL)
 	{
 		std::cout << "Error loading Falling. Sound will not play." << std::endl;
@@ -42,7 +44,7 @@ void Sound::loadSounds()
 	if (sound2 == NULL)
 	{
 		std::cout << "Error loading Explosion. Sound will not play." << std::endl;
-	}
+	}*/
 }
 
 int Sound::loadSound(std::string path, std::string name)

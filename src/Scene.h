@@ -6,6 +6,7 @@
 
 #include "PhysObj.h"
 #include "RenderObject.h"
+#include "Sound.h"
 
 struct WorldBounds
 {
@@ -38,6 +39,13 @@ public:
 	MouseData mouseData = { 0, 0, false, false };
 	void updateMouseData(float x, float y, bool left, bool right);
 
+	Sound* sound;
+
+	float P1_axis_X = 0.0f;
+	float p1_axis_Y = 0.0f;
+	float p2_axis_X = 0.0f;
+	float p2_axis_Y = 0.0f;
+
 	int registerPhys(PhysObj * obj);
 	int registerRender(RenderObject * obj);
 	void runUpdate(double simLength);
@@ -46,7 +54,11 @@ public:
 	void cleanup();
 
 private:
-	Scene() { std::cout << "Init Scene" << std::endl; };
+	Scene()
+	{
+		std::cout << "Init Scene" << std::endl;
+		sound = new Sound();
+	};
 
 	static Scene* _theScene;
 };

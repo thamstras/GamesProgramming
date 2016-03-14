@@ -15,6 +15,7 @@ public:
 	~Ball();
 	void update(double simLength);
 	void render(SDL_Renderer* ren);
+	void bindPlayer(int p);
 	DronePhys* phys;
 	StaticSprite* sprite;
 private:

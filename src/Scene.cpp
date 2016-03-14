@@ -56,11 +56,15 @@ void Scene::runUpdate(double simLength)
 {
 	for (auto const& object : PhysList)
 	{
+		object->preStep();
+	}
+	for (auto const& object : PhysList)
+	{
 		object->tickPhysics(simLength);
 	}
 	for (auto const& object : PhysList)
 	{
-		object->updatePhysics();
+		object->postStep();
 	}
 	for (auto const& object : RenderList)
 	{

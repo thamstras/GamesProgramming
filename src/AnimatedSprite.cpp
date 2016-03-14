@@ -43,7 +43,7 @@ void AnimatedSprite::update(double simLength)
 	_animTime += simLength;
 	if (_animTime >= 0.016f)
 	{
-		std::cout << "\r" << _animTime;
+		//std::cout << "\r" << _animTime;
 		_animFrame++;
 		_animTime = 0.0f;
 	}
