@@ -53,6 +53,8 @@ public:
 
 	void cleanup();
 
+	void loadScene(SceneList scene);
+
 private:
 	Scene()
 	{

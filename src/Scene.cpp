@@ -3,6 +3,12 @@
 #include <iostream>
 #include <string>
 
+enum SceneList
+{
+	SCENE_MENU, SCENE_TITLE, SCENE_PREGAME,
+	SCENE_GAME_OURTURN, SCENE_GAME_THEIRTURN
+};
+
 Scene* Scene::_theScene;
 
 Scene& Scene::getScene() 
@@ -92,4 +98,22 @@ void Scene::cleanup()
 		delete obj;
 	}
 	RenderList.clear();
+}
+
+void Scene::loadScene(SceneList scene)
+{
+	switch (scene)
+	{
+	case SCENE_TITLE:
+		cleanup();
+		break;
+	case SCENE_MENU:
+		cleanup();
+		break;
+	case SCENE_PREGAME:
+		cleanup();
+		break;
+	default:
+		break;
+	}
 }
