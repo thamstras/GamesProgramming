@@ -108,8 +108,16 @@ void DronePhys::tickPhysics(double simLength)
 	glm::dvec2 inputForce = glm::dvec2(inputAxisX * inputForceTweak, inputAxisY * inputForceTweak);
 	forceAcc += inputForce;
 
-	glm::dvec2 airResistForce = (_velocity * _velocity) * - airResist; //tODO use the magnitude squared for the magnitude, and the normalised vector for the direction
-	//forceAcc += airResistForce;
+	if (inputAxisX == 0.0f && inputAxisY == 0.0f) //If no input, slow down by the square of velocity
+	{	
+		//glm::dvec2 airResistForce = (_velocity * _velocity) * - airResist; //tODO use the magnitude squared for the magnitude, and the normalised vector for the direction
+		/*glm::dvec2 airResistDirec = glm::normalize(_velocity);
+		double airResistMag = glm::length(_velocity) * glm::length(_velocity) * -1 * airResist;
+		glm::dvec2 airResistForce = airResistDirec * airResistMag;
+		forceAcc += airResistForce;*/
+		double fac = 1.0 - (0.8*simLength);
+		_velocity = _velocity * fac;
+	}
 
 	glm::dvec2 overallAccel = forceAcc / mass;
 	glm::dvec2 overallDeltaV = overallAccel * simLength;
