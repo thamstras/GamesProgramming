@@ -48,6 +48,11 @@ bool one = false;
 bool two = false;
 bool three = false;
 
+bool key_d = false;
+bool key_w = false;
+bool key_s = false;
+bool key_a = false;
+
 //Time_Point frameStart;
 //Time_Point lastFrameStart;
 
@@ -204,6 +209,7 @@ void handleInput()
 	float p1_axis_X = 0.0f;
 	float p1_axis_Y = 0.0f;
 
+
 	/*//Event-based input handling
 	//The underlying OS is event-based, so **each** key-up or key-down (for example)
 	//generates an event.
@@ -222,16 +228,13 @@ void handleInput()
 		switch (event.type)
 		{
 		case SDL_QUIT:
-			done = true; //set donecreate remote branch flag if SDL wants to quit (i.e. if the OS has triggered a close event,
-							//  - such as window close, or SIGINT
-			break;
-
-			//keydown handling - we should to the opposite on key-up for direction controls (generally)
-		case SDL_KEYDOWN:
-			//Keydown can fire repeatable if key-repeat is on.
+			done = true;	//set donecreate remote branch flag if SDL wants to quit (i.e. if the OS has triggered a close event,		
+			break;			//  - such as window close, or SIGINT
+		case SDL_KEYDOWN:	//keydown handling - we should to the opposite on key-up for direction controls (generally)
+			/*//Keydown can fire repeatable if key-repeat is on.
 			//  - the repeat flag is set on the keyboard event, if this is a repeat event
 			//  - in our case, we're going to ignore repeat events
-			//  - https://wiki.libsdl.org/SDL_KeyboardEvent
+			//  - https://wiki.libsdl.org/SDL_KeyboardEvent  */
 			if (!event.key.repeat)
 			{
 				switch (event.key.keysym.sym)
@@ -244,16 +247,29 @@ void handleInput()
 				case SDLK_1: one = true; break;
 				case SDLK_2: two = true; break;
 				case SDLK_3: three = true; break;
+
+				case SDLK_w: key_w = true; break;
+				case SDLK_s: key_s = true; break;
+				case SDLK_a: key_a = true; break;
+				case SDLK_d: key_d = true; break;
 				}
 			}
-			else {
-				switch (event.key.keysym.sym)
-				{
-				case SDLK_w: p1_axis_Y -= 1.0f; break;
-				case SDLK_s: p1_axis_Y += 1.0f; break;
-				case SDLK_a: p1_axis_X -= 1.0f; break;
-				case SDLK_d: p1_axis_X += 1.0f; break;
-				}
+			
+			switch (event.key.keysym.sym)
+			{
+			/*case SDLK_w: p1_axis_Y -= 1.0f; break;
+			case SDLK_s: p1_axis_Y += 1.0f; break;
+			case SDLK_a: p1_axis_X -= 1.0f; break;
+			case SDLK_d: p1_axis_X += 1.0f; break;*/
+			}
+			break;	//case SDL_KEYDOWN:
+		case SDL_KEYUP:
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_w: key_w = false; break;
+			case SDLK_s: key_s = false; break;
+			case SDLK_a: key_a = false; break;
+			case SDLK_d: key_d = false; break;
 			}
 			break;
 		}
@@ -266,7 +282,16 @@ void handleInput()
 	bool rightButton = buttonMask & SDL_BUTTON(SDL_BUTTON_RIGHT);
 	Scene::getScene().updateMouseData(x, y, leftButton, rightButton);
 
-	p1_axis_X = 1.0f;
+	//p1_axis_X = 1.0f;
+	if (key_w)
+		p1_axis_Y -= 1.0f;
+	if (key_s)
+		p1_axis_Y += 1.0f;
+	if (key_a)
+		p1_axis_X -= 1.0f;
+	if (key_d)
+		p1_axis_X += 1.0f;
+
 	Scene::getScene().p1_axis_Y = p1_axis_Y;
 	Scene::getScene().P1_axis_X = p1_axis_X;
 }
