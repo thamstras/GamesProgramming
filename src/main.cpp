@@ -209,6 +209,7 @@ void handleInput()
 	float p1_axis_X = 0.0f;
 	float p1_axis_Y = 0.0f;
 
+	bool anyKey = false;
 
 	/*//Event-based input handling
 	//The underlying OS is event-based, so **each** key-up or key-down (for example)
@@ -235,6 +236,7 @@ void handleInput()
 			//  - the repeat flag is set on the keyboard event, if this is a repeat event
 			//  - in our case, we're going to ignore repeat events
 			//  - https://wiki.libsdl.org/SDL_KeyboardEvent  */
+			anyKey = true;
 			if (!event.key.repeat)
 			{
 				switch (event.key.keysym.sym)
@@ -281,7 +283,7 @@ void handleInput()
 	bool leftButton = buttonMask & SDL_BUTTON(SDL_BUTTON_LEFT);
 	bool rightButton = buttonMask & SDL_BUTTON(SDL_BUTTON_RIGHT);
 	Scene::getScene().updateMouseData(x, y, leftButton, rightButton);
-
+	Scene::getScene().anyKey = anyKey;
 	//p1_axis_X = 1.0f;
 	if (key_w)
 		p1_axis_Y -= 1.0f;

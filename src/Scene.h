@@ -52,6 +52,8 @@ public:
 	float p2_axis_X = 0.0f;
 	float p2_axis_Y = 0.0f;
 
+	bool anyKey;
+
 	int registerPhys(PhysObj * obj);
 	int registerRender(RenderObject * obj);
 	void runUpdate(double simLength);
