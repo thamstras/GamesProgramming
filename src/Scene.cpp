@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+#include "TestScreen.h"
+
 Scene* Scene::_theScene;
 
 Scene& Scene::getScene() 
@@ -38,6 +40,11 @@ void Scene::updateMouseData(float x, float y, bool left, bool right)
 	}
 }
 
+void Scene::giveRenderer(SDL_Renderer * ren)
+{
+	this->renderer = ren;
+}
+
 int Scene::registerPhys(PhysObj * obj)
 {
 	PhysList.push_back(obj);
@@ -48,7 +55,7 @@ int Scene::registerPhys(PhysObj * obj)
 int Scene::registerRender(RenderObject * obj)
 {
 	RenderList.push_back(obj);
-	std::cout << "Registered Render Object: " << &obj << std::endl;
+	std::cout << "Registered Render Object: " << obj << " ID: " << obj->id << std::endl;
 	return 0;
 }
 
@@ -94,6 +101,12 @@ void Scene::cleanup()
 	RenderList.clear();
 }
 
+void loadTestScreen(SDL_Renderer* ren)
+{
+	TestScreen* screen = new TestScreen(ren, "_TestScreen");
+	Scene::getScene().registerRender(screen);
+}
+
 void Scene::loadScene(SceneList scene)
 {
 	switch (scene)
@@ -106,6 +119,10 @@ void Scene::loadScene(SceneList scene)
 		break;
 	case SCENE_PREGAME:
 		cleanup();
+		break;
+	case SCENE_TEST_SCENE:
+		cleanup();
+		loadTestScreen(renderer);
 		break;
 	default:
 		break;

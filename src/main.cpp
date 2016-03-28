@@ -77,6 +77,7 @@ void cleanExit(int returnValue)
 
 	Mix_CloseAudio();
 	Mix_Quit();
+	TTF_Quit();
 	SDL_Quit();
 	exit(returnValue);
 }
@@ -132,10 +133,10 @@ void initText()
 		cleanExit(1);
 	}
 	
-	TextSprite* text(new TextSprite("./assets/Hack-Regular.ttf", 96, "Hello, World!", ren));
+	/*TextSprite* text(new TextSprite("./assets/Hack-Regular.ttf", 96, "Hello, World!", ren));
 	text->setScale(0.4f);
 	text->moveString(0, 0);
-	Scene::getScene().registerRender(text);
+	Scene::getScene().registerRender(text);*/
 
 
 }
@@ -151,7 +152,7 @@ void initSound()
 
 void makePlayer(int x, int y)
 {
-	std::string path = "./assets/p1_spritesheet.png";
+	/*std::string path = "./assets/p1_spritesheet.png";
 	AnimatedSprite* sprite(new AnimatedSprite(path, ren));
 
 	//walk anim
@@ -173,11 +174,11 @@ void makePlayer(int x, int y)
 	sprite->playAnim(walk);
 	sprite->moveSprite(x, y);
 
-	Scene::getScene().registerRender(sprite);
+	Scene::getScene().registerRender(sprite);*/
 }
 void initSprites()
 {
-	makePlayer(300, 300);
+	/*makePlayer(300, 300);
 
 	std::string path = "./assets/Opengl-logo.svg.png";
 	AnimatedSprite* logo(new AnimatedSprite(path, ren));
@@ -192,7 +193,7 @@ void initSprites()
 
 	Ball* aball = new Ball(ren, glm::vec2(150, 150), glm::vec2(30, 30), 1.0f);
 	aball->bindPlayer(1);
-	Scene::getScene().registerRender(aball);
+	Scene::getScene().registerRender(aball);*/
 
 	//Ball* ball2 = new Ball(ren, glm::vec2(450, 450), glm::vec2(-30, 30), 2.0f);
 	//Scene::getScene().registerRender(ball2);
@@ -257,13 +258,13 @@ void handleInput()
 				}
 			}
 			
-			switch (event.key.keysym.sym)
+			/*switch (event.key.keysym.sym)
 			{
-			/*case SDLK_w: p1_axis_Y -= 1.0f; break;
+			case SDLK_w: p1_axis_Y -= 1.0f; break;
 			case SDLK_s: p1_axis_Y += 1.0f; break;
 			case SDLK_a: p1_axis_X -= 1.0f; break;
-			case SDLK_d: p1_axis_X += 1.0f; break;*/
-			}
+			case SDLK_d: p1_axis_X += 1.0f; break;
+			}*/
 			break;	//case SDL_KEYDOWN:
 		case SDL_KEYUP:
 			switch (event.key.keysym.sym)
@@ -355,10 +356,11 @@ int main( int argc, char* args[] )
 	initThings();
 
 	initText();
-	initSprites();
+	//initSprites();
 	initSound();
 
-	
+	Scene::getScene().giveRenderer(ren);
+	Scene::getScene().loadScene(SCENE_TEST_SCENE);
 
 	while (!done) //loop until done flag is set)
 	{

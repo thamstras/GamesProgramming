@@ -29,7 +29,8 @@ struct MouseData
 enum SceneList
 {
 	SCENE_MENU, SCENE_TITLE, SCENE_PREGAME,
-	SCENE_GAME_OURTURN, SCENE_GAME_THEIRTURN
+	SCENE_GAME_OURTURN, SCENE_GAME_THEIRTURN,
+	SCENE_TEST_SCENE
 };
 
 class Scene
@@ -54,6 +55,8 @@ public:
 
 	bool anyKey;
 
+	void giveRenderer(SDL_Renderer* ren);
+
 	int registerPhys(PhysObj * obj);
 	int registerRender(RenderObject * obj);
 	void runUpdate(double simLength);
@@ -71,5 +74,6 @@ private:
 	};
 
 	static Scene* _theScene;
+	SDL_Renderer* renderer;
 };
 
