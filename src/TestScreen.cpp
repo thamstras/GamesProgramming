@@ -48,6 +48,8 @@ TestScreen::TestScreen(SDL_Renderer* ren, std::string id)
 
 	scene.registerRender(text);
 
+	button = new GUIButton(ren, "TestButton", 100, 100, []() {Scene::getScene().loadScene(SCENE_MENU); }, this->id + "_button");
+	scene.registerRender(button);
 }
 
 TestScreen::~TestScreen()
