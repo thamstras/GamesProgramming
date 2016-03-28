@@ -52,3 +52,8 @@ void TextSprite::setScale(float scale)
 {
 	this->_scale = scale;
 }
+
+SDL_Rect TextSprite::getBoundingBox()
+{
+	return{ _x, _y, _width, _height };
+}

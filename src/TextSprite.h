@@ -18,6 +18,7 @@ public:
 	void setString(std::string s, SDL_Renderer* ren);
 	void moveString(int x, int y);
 	void setScale(float scale);
+	SDL_Rect getBoundingBox();
 
 private:
 	int _x;
