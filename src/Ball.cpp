@@ -2,12 +2,12 @@
 
 #include <iostream>
 
-Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel, double mass)
+Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel, double mass, std::string id)
 {
 	std::cout << "Ball::Ball(SDL_Renderer* ren) Called" << std::endl;
-
+	this->id = id;
 	phys = new DronePhys();
-	sprite = new StaticSprite("./assets/ball.png", ren);
+	sprite = new StaticSprite("./assets/ball.png", ren, this->id + "_sprite");
 	phys->mass = 1.0f;
 	phys->radius = 32.0f;
 	phys->_position = pos;
@@ -20,6 +20,7 @@ Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel, double mass)
 Ball::~Ball()
 {
 	std::cout << "Ball::~Ball() Called " << std::endl << "THIS IS BAD!" << std::endl;
+	delete sprite;
 }
 
 void Ball::update(double simLength)

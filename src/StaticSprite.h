@@ -13,7 +13,7 @@
 class StaticSprite : public RenderObject
 {
 public:
-	StaticSprite(std::string path, SDL_Renderer* ren);
+	StaticSprite(std::string path, SDL_Renderer* ren, std::string id);
 	StaticSprite(const StaticSprite& other);
 	virtual ~StaticSprite();
 	StaticSprite& StaticSprite::operator=(const StaticSprite& other);

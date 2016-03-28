@@ -16,7 +16,7 @@ using std::string;
 class AnimatedSprite : public StaticSprite
 {
 public:
-	AnimatedSprite(std::string path, SDL_Renderer* ren);
+	AnimatedSprite(std::string path, SDL_Renderer* ren, std::string id);
 	AnimatedSprite(const AnimatedSprite& other);
 	AnimatedSprite& operator=(const AnimatedSprite& other);
 	~AnimatedSprite();

@@ -1,7 +1,8 @@
 #include "StaticSprite.h"
 
-StaticSprite::StaticSprite(std::string imagePath, SDL_Renderer* ren)
+StaticSprite::StaticSprite(std::string imagePath, SDL_Renderer* ren, std::string id)
 {
+	this->id = id;
 	SDL_Surface* surface = IMG_Load(imagePath.c_str());
 	if (surface == nullptr) {
 		std::cout << "SDL IMG_Load Error: " << SDL_GetError() << std::endl;
@@ -40,6 +41,7 @@ StaticSprite::StaticSprite(const StaticSprite & other)
 
 StaticSprite::~StaticSprite()
 {
+	std::cout << "StaticSprite::~StaticSprite() Called. THIS IS BAD!" << std::endl;
 	SDL_DestroyTexture(this->_tex);
 }
 

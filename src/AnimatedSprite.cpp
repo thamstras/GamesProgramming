@@ -1,6 +1,6 @@
 #include "AnimatedSprite.h"
 
-AnimatedSprite::AnimatedSprite(std::string imagePath, SDL_Renderer* ren) : StaticSprite( imagePath, ren)
+AnimatedSprite::AnimatedSprite(std::string imagePath, SDL_Renderer* ren, std::string id) : StaticSprite( imagePath, ren, id)
 {
 	// Just calls parent constructor. Animated Sprite's special stuff is done in other functions
 }

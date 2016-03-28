@@ -1,7 +1,8 @@
 #include "TextSprite.h"
 
-TextSprite::TextSprite(std::string font, int size, std::string string, SDL_Renderer* ren)
+TextSprite::TextSprite(std::string font, int size, std::string string, SDL_Renderer* ren, std::string id)
 {
+	this->id = id;
 	this->_font = TTF_OpenFont(font.c_str(), size);
 	if (_font == nullptr)
 	{

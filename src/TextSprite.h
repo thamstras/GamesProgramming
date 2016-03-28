@@ -11,7 +11,7 @@
 class TextSprite : public RenderObject
 {
 public:
-	TextSprite(std::string font, int size, std::string string, SDL_Renderer* ren);
+	TextSprite(std::string font, int size, std::string string, SDL_Renderer* ren, std::string id);
 	~TextSprite();
 	void update(double simLength);
 	void render(SDL_Renderer* ren);
