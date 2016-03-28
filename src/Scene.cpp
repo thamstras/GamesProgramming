@@ -3,12 +3,6 @@
 #include <iostream>
 #include <string>
 
-enum SceneList
-{
-	SCENE_MENU, SCENE_TITLE, SCENE_PREGAME,
-	SCENE_GAME_OURTURN, SCENE_GAME_THEIRTURN
-};
-
 Scene* Scene::_theScene;
 
 Scene& Scene::getScene() 

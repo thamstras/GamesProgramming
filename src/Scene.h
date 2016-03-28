@@ -26,6 +26,12 @@ struct MouseData
 	bool rightMouseOnce;
 };
 
+enum SceneList
+{
+	SCENE_MENU, SCENE_TITLE, SCENE_PREGAME,
+	SCENE_GAME_OURTURN, SCENE_GAME_THEIRTURN
+};
+
 class Scene
 {
 public:
