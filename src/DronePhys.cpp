@@ -14,8 +14,7 @@ DronePhys::DronePhys(const DronePhys & other)
 
 DronePhys::~DronePhys()
 {
-	std::cout << "DronePhys::~DronePhys() Called" << std::endl;
-	std::cout << "THIS IS BAD" << std::endl;
+	std::cout << "Destroying " << "a DronePhys instance" << std::endl;
 }
 
 void DronePhys::preStep()

@@ -1,6 +1,6 @@
 #include "GUIButton.h"
 
-GUIButton::GUIButton(SDL_Renderer* ren, std::string buttonText, int x, int y, void (*callback)(), std::string ID)
+GUIButton::GUIButton(SDL_Renderer* ren, std::string buttonText, int x, int y, void callback(), std::string ID)
 {
 	this->id = ID;
 	onClick = callback;
@@ -14,11 +14,12 @@ GUIButton::GUIButton(SDL_Renderer* ren, std::string buttonText, int x, int y, vo
 	
 	//make text;
 	std::string fontPath = "./assets/Hack-Regular.ttf";
-	text = new TextSprite(fontPath, 16, buttonText, ren, this->id + "_text");
-	
+	text = new TextSprite(fontPath, 64, buttonText, ren, this->id + "_text");
+	text->setScale(0.25f);
+
 	//arrange everything
-	sprite->moveSprite(x, y);
-	text->moveString(x + 5, y + 5);
+	sprite->moveSprite(_x, _y);
+	text->moveString(_x + 5, _y + 5);
 	SDL_Rect textBounds = text->getBoundingBox();
 	_width = textBounds.w + 10;
 	_height = textBounds.h + 10;
@@ -30,6 +31,7 @@ GUIButton::GUIButton(SDL_Renderer* ren, std::string buttonText, int x, int y, vo
 
 GUIButton::~GUIButton()
 {
+	std::cout << "Destroying " << id << std::endl;
 }
 
 void GUIButton::update(double simLength)
@@ -41,7 +43,7 @@ void GUIButton::update(double simLength)
 		if (data.mouseX > _x && data.mouseX < _x + _width)
 			if (data.mouseY > _y && data.mouseY < _y + _height)
 			{
-				std::cout << "Clicked" << std::endl;
+				std::cout << "Clicked " << id << std::endl;
 				onClick();
 			}
 	}
@@ -49,4 +51,12 @@ void GUIButton::update(double simLength)
 
 void GUIButton::render(SDL_Renderer * ren)
 {
+}
+
+void GUIButton::moveButton(int x, int y)
+{
+	_x = x;
+	_y = y;
+	sprite->moveSprite(_x, _y);
+	text->moveString(_x + 5, _y + 5);
 }

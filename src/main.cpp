@@ -303,7 +303,7 @@ void handleInput()
 // tag::updateSimulation[]
 void updateSimulation(double simLength = 0.02) //update simulation with an amount of time to simulate for (in seconds)
 {
-	Scene scene = Scene::getScene();
+	Scene& scene = Scene::getScene();
 	Sound* sound = scene.sound;
 
 	scene.runUpdate(simLength);
@@ -360,7 +360,7 @@ int main( int argc, char* args[] )
 	initSound();
 
 	Scene::getScene().giveRenderer(ren);
-	Scene::getScene().loadScene(SCENE_TEST_SCENE);
+	Scene::getScene().loadScene(SCENE_PREGAME);
 
 	while (!done) //loop until done flag is set)
 	{

@@ -19,7 +19,7 @@ Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel, double mass, std::st
 
 Ball::~Ball()
 {
-	std::cout << "Ball::~Ball() Called " << std::endl << "THIS IS BAD!" << std::endl;
+	std::cout << "Destroying " << id << std::endl;
 	delete sprite;
 }
 

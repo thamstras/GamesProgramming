@@ -28,7 +28,7 @@ struct MouseData
 
 enum SceneList
 {
-	SCENE_MENU, SCENE_TITLE, SCENE_PREGAME,
+	SCENE_MENU, SCENE_TITLE, SCENE_INSTRUCTIONS, SCENE_PREGAME,
 	SCENE_GAME_OURTURN, SCENE_GAME_THEIRTURN,
 	SCENE_TEST_SCENE
 };
@@ -43,10 +43,18 @@ public:
 	
 	WorldBounds bounds = { 0, 0, 600, 600 };
 	
+	int gridWidth = 60;
+	int gridHeight = 60;
+	int gridOffsetX = 0;
+	int gridOffsetY = 0;
+
 	MouseData mouseData = { 0, 0, false, false };
 	void updateMouseData(float x, float y, bool left, bool right);
 
 	Sound* sound;
+
+	SceneList newScene;
+	SceneList currentScene;
 
 	float P1_axis_X = 0.0f;
 	float p1_axis_Y = 0.0f;
@@ -71,7 +79,10 @@ private:
 	{
 		std::cout << "Init Scene" << std::endl;
 		sound = new Sound();
+
 	};
+
+	void changeScene();
 
 	static Scene* _theScene;
 	SDL_Renderer* renderer;

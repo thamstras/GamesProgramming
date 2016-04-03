@@ -9,12 +9,12 @@
 class GUIButton : public RenderObject
 {
 public:
-	GUIButton(SDL_Renderer* ren, std::string text, int x, int y, void (*callback)(), std::string ID);
+	GUIButton(SDL_Renderer* ren, std::string text, int x, int y, void callback(), std::string ID);
 	~GUIButton();
 
 	void update(double simLength);
 	void render(SDL_Renderer* ren);
-
+	void moveButton(int x, int y);
 private:
 	void (*onClick)();
 	StaticSprite* sprite;

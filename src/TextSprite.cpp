@@ -21,6 +21,7 @@ TextSprite::TextSprite(std::string font, int size, std::string string, SDL_Rende
 
 TextSprite::~TextSprite()
 {
+	std::cout << "Destroying " << id << std::endl;
 	TTF_CloseFont(this->_font);
 	SDL_DestroyTexture(this->_tex);
 }
@@ -55,5 +56,6 @@ void TextSprite::setScale(float scale)
 
 SDL_Rect TextSprite::getBoundingBox()
 {
-	return{ _x, _y, _width, _height };
+	SDL_Rect rect = { _x, _y, _width*_scale, _height*_scale };
+	return rect;
 }

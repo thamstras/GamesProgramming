@@ -41,7 +41,7 @@ StaticSprite::StaticSprite(const StaticSprite & other)
 
 StaticSprite::~StaticSprite()
 {
-	std::cout << "StaticSprite::~StaticSprite() Called. THIS IS BAD!" << std::endl;
+	std::cout << "Destroying " << id << std::endl;
 	SDL_DestroyTexture(this->_tex);
 }
 

@@ -34,7 +34,7 @@ AnimatedSprite& AnimatedSprite::operator=(const AnimatedSprite& other)
 
 AnimatedSprite::~AnimatedSprite()
 {
-	std::cout << "AnimatedSprite::~AnimatedSprite()\n";
+	std::cout << "Destroying " << id << std::endl;
 	SDL_DestroyTexture(this->_tex); //Done by StaticSprite
 }
 
