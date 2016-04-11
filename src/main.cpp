@@ -361,6 +361,7 @@ int main( int argc, char* args[] )
 
 	Scene::getScene().giveRenderer(ren);
 	Scene::getScene().loadScene(SCENE_PREGAME);
+	//Scene::getScene().loadScene(SCENE_MENU);
 
 	while (!done) //loop until done flag is set)
 	{
