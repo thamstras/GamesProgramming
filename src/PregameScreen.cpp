@@ -75,9 +75,10 @@ void PregameScreen::update(double simLength)
 		if (mouse.leftMouseOnce)
 		{
 			int shipSize = getCurrentShipSize();
-			if (fitsOnGrid(mouseGridX, mouseGridY, shipSize, 0))
+			int dir = !(getCurrentShip()->selectedSpriteA);
+			if (fitsOnGrid(mouseGridX, mouseGridY, shipSize, dir))
 			{
-				placeOnGrid(mouseGridX, mouseGridY, shipSize, 0);
+				placeOnGrid(mouseGridX, mouseGridY, shipSize, dir);
 				currentShip++;
 
 				if (currentShip > 6)
