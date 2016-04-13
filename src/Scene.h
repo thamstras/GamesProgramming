@@ -7,29 +7,12 @@
 #include "PhysObj.h"
 #include "RenderObject.h"
 #include "Sound.h"
-
-struct WorldBounds
-{
-	float minX;
-	float minY;
-	float maxX;
-	float maxY;
-};
-
-struct MouseData
-{
-	float mouseX;
-	float mouseY;
-	bool leftMouse;
-	bool rightMouse;
-	bool leftMouseOnce;
-	bool rightMouseOnce;
-};
+#include "Structs.h"
 
 enum SceneList
 {
 	SCENE_MENU, SCENE_TITLE, SCENE_INSTRUCTIONS, SCENE_PREGAME,
-	SCENE_GAME_OURTURN, SCENE_GAME_THEIRTURN,
+	SCENE_GAME_OURGRID, SCENE_GAME_THEIRGRID,
 	SCENE_TEST_SCENE
 };
 
@@ -60,6 +43,9 @@ public:
 	float p1_axis_Y = 0.0f;
 	float p2_axis_X = 0.0f;
 	float p2_axis_Y = 0.0f;
+
+	PlayerData p1Data;
+	PlayerData p2Data;
 
 	bool anyKey;
 

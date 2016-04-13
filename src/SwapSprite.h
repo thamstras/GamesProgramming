@@ -19,6 +19,8 @@ public:
 	void moveSprite(int x, int y);
 	void scaleSprite(float xScale, float yScale);
 
+	int getX();
+	int getY();
 private:
 	StaticSprite* spriteA;
 	StaticSprite* spriteB;

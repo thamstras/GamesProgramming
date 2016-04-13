@@ -145,8 +145,18 @@ void PregameScreen::showDoneButton()
 	done = true;
 	select->moveSprite(-100, -100);
 	doneButton->moveButton(400, 500);
-	//Scene::getScene().p1Data = ;
-	//Scene::getScene().p2Data = ;
+	ShipData s1 = { 2, ship1->getX(), ship1->getY(), !(ship1->selectedSpriteA) };
+	ShipData s2 = { 2, ship2->getX(), ship2->getY(), !(ship2->selectedSpriteA) };
+	ShipData s3 = { 3, ship3->getX(), ship3->getY(), !(ship3->selectedSpriteA) };
+	ShipData s4 = { 3, ship4->getX(), ship4->getY(), !(ship4->selectedSpriteA) };
+	ShipData s5 = { 4, ship5->getX(), ship5->getY(), !(ship5->selectedSpriteA) };
+	ShipData s6 = { 5, ship6->getX(), ship6->getY(), !(ship6->selectedSpriteA) };
+	Scene::getScene().p1Data.ships[0] = s1;
+	Scene::getScene().p1Data.ships[1] = s2;
+	Scene::getScene().p1Data.ships[2] = s3;
+	Scene::getScene().p1Data.ships[3] = s4;
+	Scene::getScene().p1Data.ships[4] = s5;
+	Scene::getScene().p1Data.ships[5] = s6;
 }
 
 bool PregameScreen::gridOpen(int X, int Y)

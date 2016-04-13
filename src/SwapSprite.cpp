@@ -46,3 +46,13 @@ void SwapSprite::scaleSprite(float xScale, float yScale)
 	spriteA->scaleSprite(xScale, yScale);
 	spriteB->scaleSprite(xScale, yScale);
 }
+
+int SwapSprite::getX()
+{
+	return spriteA->getXPos();
+}
+
+int SwapSprite::getY()
+{
+	return spriteA->getYPos();
+}

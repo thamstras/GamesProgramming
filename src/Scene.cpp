@@ -41,11 +41,13 @@ void Scene::updateMouseData(float x, float y, bool left, bool right)
 	}
 }
 
+// Store Renderer pointer for Scene Changes. TODO: Possibly no more need for passing this all the time?
 void Scene::giveRenderer(SDL_Renderer * ren)
 {
 	this->renderer = ren;
 }
 
+// Add an object to the Phys list
 int Scene::registerPhys(PhysObj * obj)
 {
 	PhysList.push_back(obj);
@@ -53,6 +55,7 @@ int Scene::registerPhys(PhysObj * obj)
 	return 0;
 }
 
+// Add an object to the Render List
 int Scene::registerRender(RenderObject * obj)
 {
 	RenderList.push_back(obj);
@@ -60,6 +63,7 @@ int Scene::registerRender(RenderObject * obj)
 	return 0;
 }
 
+// Run an update Cycle (and change scene if requested)
 void Scene::runUpdate(double simLength)
 {
 	if (!PhysList.empty())
@@ -91,6 +95,7 @@ void Scene::runUpdate(double simLength)
 	}
 }
 
+// Run a render cycle
 void Scene::render(SDL_Renderer* ren)
 {
 	if (!RenderList.empty())
@@ -102,6 +107,7 @@ void Scene::render(SDL_Renderer* ren)
 	}
 }
 
+// Delete all objects in prep for a new scene
 void Scene::cleanup()
 {
 	for (auto obj : PhysList)
@@ -151,11 +157,52 @@ void loadPregame(SDL_Renderer* ren)
 	Scene::getScene().registerRender(screen);
 }
 
+void makeP2()
+{
+
+}
+
+void loadTheirGrid()
+{
+	if (Scene::getScene().p2Data.ships[0].size = 0)
+	{
+		makeP2();
+	}
+	/*
+	
+	Ball* ourBall = new Ball(Attack_Ball);
+	ourBall->bindPlayer(1);
+	Ball* theirBall = new Ball(Defence_Ball);
+	theirBall->bindPlayer(2);
+	GridScene* grid = new GridScene(THEIR_GRID, ourBall); //Grid Scene watches for fire input
+
+	Scene::getScene().registerRender(Everything);
+
+	*/
+}
+
+void loadOurGrid()
+{
+	/*
+
+	Ball* ourBall = new Ball(Defence_ball);
+	ourBall->bindPlayer(1);
+	Ball* theirBall = new Ball (AttacK_ball);
+	thierBall->bindPlayer(2);
+	GridScene* grid = new GridScene(Our_Grid, ourBall);
+
+	Scene::getScene().registerRender(Everything);
+	
+	*/
+}
+
+// Request a Scene change
 void Scene::loadScene(SceneList scene)
 {
 	newScene = scene;
 }
 
+// Acutally do the scene change.
 void Scene::changeScene()
 {
 	switch (newScene)
