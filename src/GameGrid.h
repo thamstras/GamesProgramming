@@ -3,6 +3,8 @@
 #include "CommonIncludes.h"
 #include "RenderObject.h"
 #include "Scene.h"
+#include "Ball.h"
+#include "Ship.h"
 
 enum GridTypes
 {
@@ -19,5 +21,11 @@ public:
 	void render(SDL_Renderer* ren);
 
 private:
+	PlayerData playerData;
+	GridTypes type;
+	Ball* ourBall;
+	Ball* theirBall;
+	Ship** ships;
 
+	int* gridData;
 };

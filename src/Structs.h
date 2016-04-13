@@ -26,7 +26,68 @@ struct ShipData
 	int dir;
 };
 
+class ShotData
+{
+public:
+	int* data;
+	ShotData()
+	{
+		data = new int[100];
+		for (int i = 0; i < 100; i++)
+		{
+			data[i] = 0;
+		}
+	}
+	ShotData(const ShotData& other)
+	{
+		if (this != &other)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				this->data[i] = other.data[i];
+			}
+		}
+	}
+	~ShotData()
+	{
+		delete[] data;
+	}
+	void addHit(int x, int y)
+	{
+		// TODO: NYI
+	}
+	void addMiss(int x, int y)
+	{
+		// TODO: NYI
+	}
+	int getState(int x, int y)
+	{
+		// TODO: NYI
+	}
+};
+
 struct PlayerData
 {
-	ShipData ships[6];
+	ShipData* ships;
+	ShotData shotData;
+	PlayerData()
+	{
+		ships = new ShipData[6];
+	}
+
+	PlayerData(const PlayerData& other)
+	{
+		if (this != &other)
+		{
+			for (int i = 0; i < 6; i++)
+			{
+				this->ships[i] = other.ships[i];
+			}
+		}
+	}
+
+	~PlayerData()
+	{
+		delete[] ships;
+	}
 };

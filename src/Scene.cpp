@@ -169,7 +169,7 @@ void loadTheirGrid()
 		makeP2();
 	}
 	/*
-	
+	 TODO: THIS (Grid manages balls now...)
 	Ball* ourBall = new Ball(Attack_Ball);
 	ourBall->bindPlayer(1);
 	Ball* theirBall = new Ball(Defence_Ball);
@@ -184,7 +184,7 @@ void loadTheirGrid()
 void loadOurGrid()
 {
 	/*
-
+	 TODO: THIS (Grid manages balls now...)
 	Ball* ourBall = new Ball(Defence_ball);
 	ourBall->bindPlayer(1);
 	Ball* theirBall = new Ball (AttacK_ball);
@@ -195,6 +195,8 @@ void loadOurGrid()
 	
 	*/
 }
+
+// TODO: void Scene::turnover()
 
 // Request a Scene change
 void Scene::loadScene(SceneList scene)
