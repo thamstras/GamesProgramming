@@ -47,6 +47,8 @@ public:
 	PlayerData p1Data;
 	PlayerData p2Data;
 
+	int turn;
+
 	bool anyKey;
 
 	void giveRenderer(SDL_Renderer* ren);
@@ -58,7 +60,10 @@ public:
 
 	void cleanup();
 
+	void turnover(int winner);
+
 	void loadScene(SceneList scene);
+	
 
 private:
 	Scene()

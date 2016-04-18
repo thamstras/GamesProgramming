@@ -5,6 +5,7 @@
 
 #include "TestScreen.h"
 #include "PregameScreen.h"
+#include "GameGrid.h"
 
 Scene* Scene::_theScene;
 
@@ -159,44 +160,65 @@ void loadPregame(SDL_Renderer* ren)
 
 void makeP2()
 {
-
+	/*
+	 TODO: THIS
+	 TODO: RemotePlayer class
+	 TODO: RemotePlayerAI class
+	 TODO: RemotePlayerLocal class
+	 TODO: RemotePlayerNetwork class?
+	if (multiplayer)
+		Let P2 place ships
+	else
+		init AI
+		Generate Grid
+	
+	*/
 }
 
-void loadTheirGrid()
+void loadTheirGrid(SDL_Renderer* ren)
 {
 	if (Scene::getScene().p2Data.ships[0].size = 0)
 	{
 		makeP2();
 	}
-	/*
-	 TODO: THIS (Grid manages balls now...)
-	Ball* ourBall = new Ball(Attack_Ball);
-	ourBall->bindPlayer(1);
-	Ball* theirBall = new Ball(Defence_Ball);
-	theirBall->bindPlayer(2);
-	GridScene* grid = new GridScene(THEIR_GRID, ourBall); //Grid Scene watches for fire input
+	GameGrid* grid = new GameGrid(THEIR_GRID, ren, "_ThierGrid");
 
-	Scene::getScene().registerRender(Everything);
+	Scene::getScene().registerRender(grid);
 
-	*/
 }
 
-void loadOurGrid()
+void loadOurGrid(SDL_Renderer* ren)
 {
-	/*
-	 TODO: THIS (Grid manages balls now...)
-	Ball* ourBall = new Ball(Defence_ball);
-	ourBall->bindPlayer(1);
-	Ball* theirBall = new Ball (AttacK_ball);
-	thierBall->bindPlayer(2);
-	GridScene* grid = new GridScene(Our_Grid, ourBall);
+	GameGrid* grid = new GameGrid(OUR_GRID, ren, "_OurGrid");
 
-	Scene::getScene().registerRender(Everything);
-	
-	*/
+	Scene::getScene().registerRender(grid);
 }
 
-// TODO: void Scene::turnover()
+void Scene::turnover(int winner)
+{
+	switch (winner)
+	{
+	case 0:
+		if (turn == 1)
+		{
+			turn = 2;
+			loadScene(SCENE_GAME_THEIRGRID);
+		}
+		else {
+			turn = 1;
+			loadScene(SCENE_GAME_OURGRID);
+		}
+		break;
+	case 1:
+		//Local player won
+		break;
+	case 2:
+		//Remote/AI player won
+		break;
+	default:
+		break;
+	}
+}
 
 // Request a Scene change
 void Scene::loadScene(SceneList scene)
@@ -228,6 +250,13 @@ void Scene::changeScene()
 		cleanup();
 		loadTestScreen(renderer);
 		break;
+	case SCENE_GAME_OURGRID:
+		cleanup();
+		loadOurGrid(renderer);
+		break;
+	case SCENE_GAME_THEIRGRID:
+		cleanup();
+		loadTheirGrid(renderer);
 	default:
 		break;
 	}

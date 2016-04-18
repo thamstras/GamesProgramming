@@ -1,8 +1,10 @@
 #include "Ship.h"
 
-Ship::Ship(SDL_Renderer* ren, std::string id, int X, int Y, int type, int dir)
+Ship::Ship(SDL_Renderer* ren, std::string id, int X, int Y, int type, int dir, int n, int p)
 {
 	this->id = id;
+	this->n = n;
+	this->p = p;
 	top = Y;
 	left = X;
 	destroyed = false;
@@ -49,6 +51,7 @@ Ship::Ship(SDL_Renderer* ren, std::string id, int X, int Y, int type, int dir)
 		right = X;
 	}
 
+	// TODO: Load Destruction
 
 }
 
@@ -72,10 +75,47 @@ bool Ship::hit(int X, int Y)
 		{
 			// TODO: Add Explosion
 			// TODO: Add Destroyed section/smoke at hit
+
+			//Update PlayerData
+			int hitSection;
+			PlayerData& pData = Scene::getScene().p1Data;
+			switch (p)
+			{
+			case 1:
+				pData = Scene::getScene().p1Data;
+				break;
+			case 2:
+				pData = Scene::getScene().p2Data;
+				break;
+			default:
+				pData = Scene::getScene().p1Data;
+				break;
+			}
+			switch (hitSection)
+			{
+			case 1:
+				pData.ships[n].d1 = true;
+				break;
+			case 2:
+				pData.ships[n].d2 = true;
+				break;
+			case 3:
+				pData.ships[n].d3 = true;
+				break;
+			case 4:
+				pData.ships[n].d4 = true;
+				break;
+			case 5:
+				pData.ships[n].d5 = true;
+				break;
+			default:
+				break;
+			}
 			hits++;
 			if (hits = size)
 			{
 				// TODO: Destroyed!
+				pData.ships[n].destroyed = true;
 				destroyed = true;
 			}
 			return true;

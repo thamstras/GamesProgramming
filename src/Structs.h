@@ -24,6 +24,13 @@ struct ShipData
 	int x;
 	int y;
 	int dir;
+	bool destroyed = false;
+	bool d1 = false;
+	bool d2 = false;
+	bool d3 = false;
+	bool d4 = false;
+	bool d5 = false;
+
 };
 
 class ShotData
@@ -54,15 +61,30 @@ public:
 	}
 	void addHit(int x, int y)
 	{
-		// TODO: NYI
+		if (x > 10 || x < 0)
+			return;
+		if (y > 10 || y < 0)
+			return;
+		int n = y * 10 + x;
+		data[n] = 2;
 	}
 	void addMiss(int x, int y)
 	{
-		// TODO: NYI
+		if (x > 10 || x < 0)
+			return;
+		if (y > 10 || y < 0)
+			return;
+		int n = y * 10 + x;
+		data[n] = 1;
 	}
 	int getState(int x, int y)
 	{
-		// TODO: NYI
+		if (x > 10 || x < 0)
+			return 0;
+		if (y > 10 || y < 0)
+			return 0;
+		int n = y * 10 + x;
+		return data[n];
 	}
 };
 

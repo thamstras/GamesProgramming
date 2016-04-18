@@ -11,10 +11,10 @@ enum GridTypes
 	OUR_GRID, THEIR_GRID
 };
 
-class GameGrid : RenderObject
+class GameGrid : public RenderObject
 {
 public:
-	GameGrid(GridTypes gridType);
+	GameGrid(GridTypes gridType, SDL_Renderer * ren, std::string id);
 	~GameGrid();
 
 	void update(double simLength);
@@ -26,6 +26,7 @@ private:
 	Ball* ourBall;
 	Ball* theirBall;
 	Ship** ships;
-
+	StaticSprite** shotSprites;
+	int n_shots;
 	int* gridData;
 };

@@ -2,6 +2,8 @@
 
 void transitToGame()
 {
+	// TODO: Finish transition to Game
+	//Scene::getScene().turn = 1;
 	//Scene::getScene().loadScene(SCENE_GAME_OURTURN);
 }
 
