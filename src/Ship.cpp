@@ -94,19 +94,19 @@ bool Ship::hit(int X, int Y)
 			switch (hitSection)
 			{
 			case 1:
-				pData.ships[n].d1 = true;
+				//pData.ships[n].d1 = true;
 				break;
 			case 2:
-				pData.ships[n].d2 = true;
+				//pData.ships[n].d2 = true;
 				break;
 			case 3:
-				pData.ships[n].d3 = true;
+				//pData.ships[n].d3 = true;
 				break;
 			case 4:
-				pData.ships[n].d4 = true;
+				//pData.ships[n].d4 = true;
 				break;
 			case 5:
-				pData.ships[n].d5 = true;
+				//pData.ships[n].d5 = true;
 				break;
 			default:
 				break;
@@ -115,7 +115,7 @@ bool Ship::hit(int X, int Y)
 			if (hits = size)
 			{
 				// TODO: Destroyed!
-				pData.ships[n].destroyed = true;
+				//pData.ships[n].destroyed = true;
 				destroyed = true;
 			}
 			return true;

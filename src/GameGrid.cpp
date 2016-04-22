@@ -43,7 +43,7 @@ GameGrid::GameGrid(GridTypes gridType, SDL_Renderer * ren, std::string id)
 		for (int s = 0; s < 6; s++)
 		{
 			std::string sid = this->id + "_ship" + std::to_string(s);
-			ships[s] = new Ship(ren, sid, shipsData[s].x, shipsData[s].y, shipsData[s].size, shipsData[s].dir);
+			ships[s] = new Ship(ren, sid, shipsData[s].x, shipsData[s].y, shipsData[s].size, shipsData[s].dir, s, 1);
 			Scene::getScene().registerRender(ships[s]);
 		}
 		ourPos = glm::vec2(10, 10);

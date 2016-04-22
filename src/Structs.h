@@ -24,12 +24,12 @@ struct ShipData
 	int x;
 	int y;
 	int dir;
-	bool destroyed = false;
+	/*bool destroyed = false;
 	bool d1 = false;
 	bool d2 = false;
 	bool d3 = false;
 	bool d4 = false;
-	bool d5 = false;
+	bool d5 = false;*/
 
 };
 
