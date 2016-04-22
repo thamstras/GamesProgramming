@@ -1,9 +1,6 @@
 #include "GameGrid.h"
 #include "glm\glm.hpp"
 
-// TODO: On THEIR turn ship data not stored correctly.
-//       This means can't hit them.
-
 ShipData * zSortShips(ShipData * ships)
 {
 	ShipData * output = new ShipData[6];
@@ -24,76 +21,33 @@ ShipData * zSortShips(ShipData * ships)
 
 GameGrid::GameGrid(GridTypes gridType, SDL_Renderer * ren, std::string id)
 {
+	// Setup Grid
 	this->id = id;
 	type = gridType;
-	
 	gridData = new int[100];
-	
 	ships = new Ship*[6];
+	
+	// Load Player Data
+	playerData1 = Scene::getScene().p1Data;
+	playerData2 = Scene::getScene().p2Data;
 
-	PlayerData& p1Data = Scene::getScene().p1Data;
-	ShipData * shipsData = zSortShips(p1Data.ships);
-	
-	glm::vec2 ourPos;
-	glm::vec2 theirPos;
-	
-	switch (gridType)
+	// Draw Local Ships
+	ShipData * shipsData = zSortShips(playerData1.ships);
+	for (int s = 0; s < 6; s++)
 	{
-	case OUR_GRID:
-		for (int s = 0; s < 6; s++)
-		{
-			std::string sid = this->id + "_ship" + std::to_string(s);
-			ships[s] = new Ship(ren, sid, shipsData[s].x, shipsData[s].y, shipsData[s].size, shipsData[s].dir, s, 1);
-			Scene::getScene().registerRender(ships[s]);
-		}
-		ourPos = glm::vec2(10, 10);
-		theirPos = glm::vec2(90, 90);
-
-		break;
-	case THEIR_GRID:
-		for (int x = 1; x <= 10; x++)
-		{
-			for (int y = 1; y <= 10; y++)
-			{
-				if (p1Data.shotData.getState(x, y) != 0)
-					n_shots++;
-			}
-		}
-		shotSprites = new StaticSprite*[n_shots];
-		for (int x = 1; x <= 10; x++)
-		{
-			for (int y = 1; y <= 10; y++)
-			{
-				switch (p1Data.shotData.getState(x, y))
-				{
-				case 0: //No Shot
-					// TODO: Sprites
-					break;
-				case 1: //Miss
-					break;
-				case 2: //Hit
-					break;
-				default: //Error
-					break;
-				}
-			}
-		}
-		ourPos = glm::vec2(90, 90);
-		theirPos = glm::vec2(10, 10);
-		break;
-	default:
-		// PANIC
-		break;
+		std::string sid = this->id + "_ship" + std::to_string(s);
+		ships[s] = new Ship(ren, sid, shipsData[s].x, shipsData[s].y, shipsData[s].size, shipsData[s].dir, s, 1);
 	}
 
-	ourBall = new Ball(ren, ourPos, glm::vec2(0, 0), 100.0f, this->id + "_ourBall");
-	theirBall = new Ball(ren, theirPos, glm::vec2(0, 0), 100.0f, this->id + "_theirBall");
-	ourBall->bindPlayer(1);
-	theirBall->bindPlayer(2);
+	// Prep Balls
+	// TODO: 
 
-	Scene::getScene().registerRender(ourBall);
-	Scene::getScene().registerRender(theirBall);
+	// register all renders
 
+	// If HOST, no more to do.
+	// IF CLIENT, Switch to THIER_GRID.
+
+	// register all renders
 
 }
 
@@ -101,8 +55,38 @@ GameGrid::~GameGrid()
 {
 }
 
+void GameGrid::swapGrid()
+{
+	if (type = OUR_GRID)
+	{
+		type = THEIR_GRID;
+		for (int i = 0; i < 6; i++)
+		{
+			// TODO: 
+			//ships[i]->moveShip(ships[i]->getXPos() - 10, ships[i].getYPos());
+		}
+		for each (auto shot in shotSrpites)
+		{
+			shot.moveSprite(shot.getXPos() - 10, shot.getYPos);
+		}
+	}
+	else {
+		type = OUR_GRID;
+		for (int i = 0; i < 6; i++)
+		{
+			// TODO:
+			//ships[i]->moveShip(ships[i]->getXPos() + 10, ships[i].getYPos());
+		}
+		for each (auto shot in shotSrpites)
+		{
+			shot.moveSprite(shot.getXPos() + 10, shot.getYPos);
+		}
+	}
+}
+
 void GameGrid::update(double simLength)
 {
+	/* TODO: Redo
 	if (type == THEIR_GRID)
 	{
 		MouseData mouse = Scene::getScene().mouseData;
@@ -153,6 +137,7 @@ void GameGrid::update(double simLength)
 			Scene::getScene().p1Data.shotData.addMiss(gridX, gridY);
 		}
 	}
+	*/
 }
 
 void GameGrid::render(SDL_Renderer * ren)

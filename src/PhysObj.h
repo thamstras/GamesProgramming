@@ -13,6 +13,7 @@ public:
 	virtual void postStep() = 0;
 	glm::dvec2 _position;
 	glm::dvec2 _velocity;
+	bool enabled;
 
 protected:
 	glm::dvec2 _newPosition;

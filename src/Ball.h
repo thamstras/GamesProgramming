@@ -18,7 +18,10 @@ public:
 	void bindPlayer(int p);
 	DronePhys* phys;
 	StaticSprite* sprite;
+	void enable();
+	void disable();
 private:
+	bool enabled;
 	glm::dvec2 _position;
 	glm::dvec2 _velocity;
 	

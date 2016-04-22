@@ -42,7 +42,8 @@ void DronePhys::preStep()
 
 void DronePhys::tickPhysics(double simLength)
 {
-	
+	if (!enabled)
+		return;
 
 	if (simLength > 0.5f || simLength < 0.000001f)
 	{

@@ -175,7 +175,7 @@ void makeP2()
 	*/
 }
 
-void loadTheirGrid(SDL_Renderer* ren)
+/*void loadTheirGrid(SDL_Renderer* ren)
 {
 	if (Scene::getScene().p2Data.ships[0].size = 0)
 	{
@@ -192,9 +192,9 @@ void loadOurGrid(SDL_Renderer* ren)
 	GameGrid* grid = new GameGrid(OUR_GRID, ren, "_OurGrid");
 
 	Scene::getScene().registerRender(grid);
-}
+}*/
 
-void Scene::turnover(int winner)
+/*void Scene::turnover(int winner)
 {
 	switch (winner)
 	{
@@ -218,7 +218,7 @@ void Scene::turnover(int winner)
 	default:
 		break;
 	}
-}
+}*/
 
 // Request a Scene change
 void Scene::loadScene(SceneList scene)
@@ -252,11 +252,11 @@ void Scene::changeScene()
 		break;
 	case SCENE_GAME_OURGRID:
 		cleanup();
-		loadOurGrid(renderer);
+		//loadOurGrid(renderer);
 		break;
 	case SCENE_GAME_THEIRGRID:
 		cleanup();
-		loadTheirGrid(renderer);
+		//loadTheirGrid(renderer);
 	default:
 		break;
 	}

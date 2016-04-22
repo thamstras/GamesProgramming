@@ -49,7 +49,7 @@ public:
 	PlayerData p1Data;
 	PlayerData p2Data;
 
-	int turn;
+	//int turn;
 
 	bool anyKey;
 
@@ -62,7 +62,7 @@ public:
 
 	void cleanup();
 
-	void turnover(int winner);
+	//void turnover(int winner);
 
 	void loadScene(SceneList scene);
 	

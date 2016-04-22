@@ -17,16 +17,23 @@ public:
 	GameGrid(GridTypes gridType, SDL_Renderer * ren, std::string id);
 	~GameGrid();
 
+	void swapGrid();
+
 	void update(double simLength);
 	void render(SDL_Renderer* ren);
 
 private:
-	PlayerData playerData;
+	PlayerData& playerData1;
+	PlayerData& playerData2;
+
 	GridTypes type;
-	Ball* ourBall;
-	Ball* theirBall;
+
+	Ball* ourABall;
+	Ball* ourDBall;
+	Ball* theirABall;
+	Ball* theirDBall;
+
 	Ship** ships;
-	StaticSprite** shotSprites;
-	int n_shots;
+	std::vector<StaticSprite> shotSrpites;
 	int* gridData;
 };

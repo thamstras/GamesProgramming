@@ -14,6 +14,7 @@ Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel, double mass, std::st
 	phys->_velocity = vel;
 	this->_position = pos;
 	this->_velocity = vel;
+	enabled = true;
 	Scene::getScene().registerPhys(phys);
 }
 
@@ -54,4 +55,16 @@ void Ball::bindPlayer(int p)
 		phys->playerBind = 0;
 		break;
 	}
+}
+
+void Ball::enable()
+{
+	this->enabled = true;
+	this->phys->enabled = true;
+}
+
+void Ball::disable()
+{
+	this->enabled = false;
+	this->phys->enabled = false;
 }
