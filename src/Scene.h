@@ -9,6 +9,7 @@
 #include "Sound.h"
 #include "TextureManager.h"
 #include "Structs.h"
+#include "RemotePlayerAI.h"
 
 enum SceneList
 {
@@ -49,9 +50,13 @@ public:
 	PlayerData p1Data;
 	PlayerData p2Data;
 
-	//int turn;
-
 	bool anyKey;
+
+	bool p1Fire;
+	bool p2Fire;
+
+	RemotePlayer * remotePlayer;
+	void sendGrid();
 
 	void giveRenderer(SDL_Renderer* ren);
 

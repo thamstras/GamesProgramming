@@ -57,7 +57,7 @@ GameGrid::~GameGrid()
 
 void GameGrid::swapGrid()
 {
-	if (type = OUR_GRID)
+	if (type == OUR_GRID)
 	{
 		type = THEIR_GRID;
 		for (int i = 0; i < 6; i++)
@@ -67,7 +67,7 @@ void GameGrid::swapGrid()
 		}
 		for each (auto shot in shotSrpites)
 		{
-			shot.moveSprite(shot.getXPos() - 10, shot.getYPos);
+			shot.moveSprite(shot.getXPos() - 10, shot.getYPos());
 		}
 	}
 	else {
@@ -79,7 +79,7 @@ void GameGrid::swapGrid()
 		}
 		for each (auto shot in shotSrpites)
 		{
-			shot.moveSprite(shot.getXPos() + 10, shot.getYPos);
+			shot.moveSprite(shot.getXPos() + 10, shot.getYPos());
 		}
 	}
 }

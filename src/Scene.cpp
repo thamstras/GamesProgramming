@@ -42,6 +42,11 @@ void Scene::updateMouseData(float x, float y, bool left, bool right)
 	}
 }
 
+void Scene::sendGrid()
+{
+	remotePlayer->sendGrid(p1Data);
+}
+
 // Store Renderer pointer for Scene Changes. TODO: Possibly no more need for passing this all the time?
 void Scene::giveRenderer(SDL_Renderer * ren)
 {
@@ -67,6 +72,11 @@ int Scene::registerRender(RenderObject * obj)
 // Run an update Cycle (and change scene if requested)
 void Scene::runUpdate(double simLength)
 {
+	remotePlayer->update();
+	p2_axis_X = remotePlayer->axis_X;
+	p2_axis_Y = remotePlayer->axis_Y;
+	p2Fire = remotePlayer->fire;
+
 	if (!PhysList.empty())
 	{
 		for (auto const& object : PhysList)

@@ -61,7 +61,7 @@ PregameScreen::~PregameScreen()
 void PregameScreen::update(double simLength)
 {
 	MouseData mouse = Scene::getScene().mouseData;
-	
+
 	int mouseGridX = mouse.mouseX / gridWidth;
 	int mouseGridY = mouse.mouseY / gridHeight;
 
@@ -91,6 +91,10 @@ void PregameScreen::update(double simLength)
 		{
 			getCurrentShip()->swap();
 		}
+	}
+	else {
+		// Check if remote ready
+		//		transitionToGame();
 	}
 }
 
@@ -146,7 +150,7 @@ void PregameScreen::showDoneButton()
 {
 	done = true;
 	select->moveSprite(-100, -100);
-	doneButton->moveButton(400, 500);
+	//doneButton->moveButton(400, 500);
 	ShipData s1 = { 2, ship1->getX(), ship1->getY(), !(ship1->selectedSpriteA) };
 	ShipData s2 = { 2, ship2->getX(), ship2->getY(), !(ship2->selectedSpriteA) };
 	ShipData s3 = { 3, ship3->getX(), ship3->getY(), !(ship3->selectedSpriteA) };

@@ -23,8 +23,8 @@ public:
 	void render(SDL_Renderer* ren);
 
 private:
-	PlayerData& playerData1;
-	PlayerData& playerData2;
+	PlayerData playerData1;
+	PlayerData playerData2;
 
 	GridTypes type;
 
