@@ -5,8 +5,8 @@ TestScreen::TestScreen(SDL_Renderer* ren, std::string id)
 	this->id = id;
 	std::cout << "Making TestScene" << std::endl;
 
-	std::string manPath = "./assets/p1_spritesheet.png";
-	std::string logoPath = "./assets/Opengl-logo.svg.png";
+	std::string manPath = "p1_spritesheet";
+	std::string logoPath = "logo";
 	Scene& scene = Scene::getScene();
 
 	man = new AnimatedSprite(manPath, ren, this->id + "_man");

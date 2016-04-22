@@ -1,6 +1,6 @@
 #include "TextureManager.h"
 
-
+#include "TextureList.h"
 
 TextureManager::TextureManager()
 {
@@ -56,4 +56,6 @@ SDL_Texture * TextureManager::getTexture(std::string name)
 	{
 		tex = textureMap.at("errortex"); // errortex will always be loaded. Program will quit on loadTextures() if it can't be found.
 	}
+
+	return tex;
 }

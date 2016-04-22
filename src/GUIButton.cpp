@@ -9,7 +9,7 @@ GUIButton::GUIButton(SDL_Renderer* ren, std::string buttonText, int x, int y, vo
 	_y = y;
 
 	//make sprite;
-	std::string spritePath = "./assets/buttonTex.png";
+	std::string spritePath = "buttonTex";
 	sprite = new StaticSprite(spritePath, ren, this->id + "_sprite");
 	
 	//make text;

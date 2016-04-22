@@ -9,6 +9,7 @@
 
 #include "SpriteAnim.h"
 #include "RenderObject.h"
+#include "Scene.h"
 
 class StaticSprite : public RenderObject
 {

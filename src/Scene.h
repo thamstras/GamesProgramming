@@ -7,6 +7,7 @@
 #include "PhysObj.h"
 #include "RenderObject.h"
 #include "Sound.h"
+#include "TextureManager.h"
 #include "Structs.h"
 
 enum SceneList
@@ -35,6 +36,7 @@ public:
 	void updateMouseData(float x, float y, bool left, bool right);
 
 	Sound* sound;
+	TextureManager* textures;
 
 	SceneList newScene;
 	SceneList currentScene;
@@ -70,7 +72,7 @@ private:
 	{
 		std::cout << "Init Scene" << std::endl;
 		sound = new Sound();
-
+		textures = new TextureManager();
 	};
 
 	void changeScene();

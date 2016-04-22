@@ -20,14 +20,14 @@ PregameScreen::PregameScreen(SDL_Renderer * ren, std::string id)
 	for (int i = 0; i < 100; i++)
 		grid[i] = false;
 
-	select = new StaticSprite("./assets/selectionSquare.png", ren, this->id + "_select");
+	select = new StaticSprite("selectionsquare", ren, this->id + "_select");
 
-	ship1 = new SwapSprite("./assets/shipblueprint-2.png", "./assets/shipblueprint-2r.png", ren, this->id + "_ship1");
-	ship2 = new SwapSprite("./assets/shipblueprint-2.png", "./assets/shipblueprint-2r.png", ren, this->id + "_ship2");
-	ship3 = new SwapSprite("./assets/shipblueprint-3.png", "./assets/shipblueprint-3r.png", ren, this->id + "_ship3");
-	ship4 = new SwapSprite("./assets/shipblueprint-3.png", "./assets/shipblueprint-3r.png", ren, this->id + "_ship4");
-	ship5 = new SwapSprite("./assets/shipblueprint-4.png", "./assets/shipblueprint-4r.png", ren, this->id + "_ship5");
-	ship6 = new SwapSprite("./assets/shipblueprint-5.png", "./assets/shipblueprint-5r.png", ren, this->id + "_ship6");
+	ship1 = new SwapSprite("shipblueprint-2", "shipblueprint-2r", ren, this->id + "_ship1");
+	ship2 = new SwapSprite("shipblueprint-2", "shipblueprint-2r", ren, this->id + "_ship2");
+	ship3 = new SwapSprite("shipblueprint-3", "shipblueprint-3r", ren, this->id + "_ship3");
+	ship4 = new SwapSprite("shipblueprint-3", "shipblueprint-3r", ren, this->id + "_ship4");
+	ship5 = new SwapSprite("shipblueprint-4", "shipblueprint-4r", ren, this->id + "_ship5");
+	ship6 = new SwapSprite("shipblueprint-5", "shipblueprint-5r", ren, this->id + "_ship6");
 
 
 	doneButton = new GUIButton(ren, "Done", -100, -100, transitToGame, this->id + "_doneButton");

@@ -7,7 +7,7 @@ Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel, double mass, std::st
 	std::cout << "Ball::Ball(SDL_Renderer* ren) Called" << std::endl;
 	this->id = id;
 	phys = new DronePhys();
-	sprite = new StaticSprite("./assets/ball.png", ren, this->id + "_sprite");
+	sprite = new StaticSprite("ball", ren, this->id + "_sprite");
 	phys->mass = 1.0f;
 	phys->radius = 32.0f;
 	phys->_position = pos;

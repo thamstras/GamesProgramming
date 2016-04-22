@@ -3,29 +3,22 @@
 StaticSprite::StaticSprite(std::string imagePath, SDL_Renderer* ren, std::string id)
 {
 	this->id = id;
-	SDL_Surface* surface = IMG_Load(imagePath.c_str());
-	if (surface == nullptr) {
-		std::cout << "SDL IMG_Load Error: " << SDL_GetError() << std::endl;
-		//cleanExit(1);
-	}
+	int * w = new int;
+	int * h = new int;
+	
+	this->_tex = Scene::getScene().textures->getTexture(imagePath);
+	SDL_QueryTexture(_tex, NULL, NULL, w, h);
 
-	int w = surface->w;
-	int h = surface->h;
-
-	this->_srcRect = { 0, 0, w, h };
-
-	this->_tex = SDL_CreateTextureFromSurface(ren, surface);
-	SDL_FreeSurface(surface);
-	if (this->_tex == nullptr) {
-		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-		//cleanExit(1);
-	}
+	this->_srcRect = { 0, 0, *w, *h };
 
 	_x = 10;
 	_y = 10;
 
 	_scaleX = 1.0f;
 	_scaleY = 1.0f;
+
+	delete w;
+	delete h;
 }
 
 StaticSprite::StaticSprite(const StaticSprite & other)

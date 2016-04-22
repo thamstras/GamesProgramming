@@ -359,6 +359,9 @@ int main( int argc, char* args[] )
 	//initSprites();
 	initSound();
 
+	Scene::getScene().textures->initTextures();
+	Scene::getScene().textures->loadTextureList(ren);
+
 	Scene::getScene().giveRenderer(ren);
 	Scene::getScene().loadScene(SCENE_PREGAME);
 	//Scene::getScene().loadScene(SCENE_MENU);
