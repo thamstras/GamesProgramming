@@ -15,23 +15,23 @@ Ship::Ship(SDL_Renderer* ren, std::string id, int X, int Y, int type, int dir, i
 	{
 	case 2:
 		length = 2;
-		path = ".\assets\shipblueprint-2.png";
-		path2 = ".\assets\shipblueprint-2r.png";
+		path = "shipblueprint-2";
+		path2 = "shipblueprint-2r";
 		break;
 	case 3:
 		length = 3;
-		path = ".\assets\shipblueprint-3.png";
-		path2 = ".\assets\shipblueprint-3r.png";
+		path = "shipblueprint-3";
+		path2 = "shipblueprint-3r";
 		break;
 	case 4:
 		length = 4;
-		path = ".\assets\shipblueprint-4.png";
-		path2 = ".\assets\shipblueprint-4r.png";
+		path = "shipblueprint-4";
+		path2 = "shipblueprint-4r";
 		break;
 	case 5:
 		length = 5;
-		path = ".\assets\shipblueprint-5.png";
-		path2 = ".\assets\shipblueprint-5r.png";
+		path = "shipblueprint-5";
+		path2 = "shipblueprint-5r";
 		break;
 	default:
 		break;

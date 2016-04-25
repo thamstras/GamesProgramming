@@ -55,8 +55,10 @@ public:
 	bool p1Fire;
 	bool p2Fire;
 
+	bool isServer = true;
 	RemotePlayer * remotePlayer;
 	void sendGrid();
+	void startGame();
 
 	void giveRenderer(SDL_Renderer* ren);
 
@@ -78,6 +80,7 @@ private:
 		std::cout << "Init Scene" << std::endl;
 		sound = new Sound();
 		textures = new TextureManager();
+		remotePlayer = new RemotePlayerAI();
 	};
 
 	void changeScene();

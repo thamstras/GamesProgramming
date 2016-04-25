@@ -14,6 +14,8 @@ Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel, double mass, std::st
 	phys->_velocity = vel;
 	this->_position = pos;
 	this->_velocity = vel;
+	auto radius = phys->radius;
+	sprite->moveSprite((int)(_position.x - radius), (int)(_position.y - radius));
 	enabled = true;
 	Scene::getScene().registerPhys(phys);
 }
@@ -67,4 +69,13 @@ void Ball::disable()
 {
 	this->enabled = false;
 	this->phys->enabled = false;
+}
+
+void Ball::moveDelta(int deltaX, int deltaY)
+{
+	phys->_position.x += deltaX;
+	phys->_position.y += deltaY;
+	_position.x += deltaX;
+	_position.y += deltaY;
+	sprite->moveSprite(_position.x, _position.y);
 }

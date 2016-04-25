@@ -101,6 +101,7 @@ struct PlayerData
 	{
 		if (this != &other)
 		{
+			ships = new ShipData[6];
 			for (int i = 0; i < 6; i++)
 			{
 				this->ships[i] = other.ships[i];

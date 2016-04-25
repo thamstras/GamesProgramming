@@ -1,5 +1,6 @@
 #include "RemotePlayerAI.h"
-
+#include "CommonIncludes.h"
+#include "Scene.h"
 
 
 RemotePlayerAI::RemotePlayerAI()
@@ -20,12 +21,14 @@ bool RemotePlayerAI::connect()
 bool RemotePlayerAI::getReady()
 {
 	// TODO: Build Grid
-	return false;
+	data = Scene::getScene().p1Data; // Cheekey copy the human
+	return true;
 }
 
 void RemotePlayerAI::update()
 {
 	// TODO: AI goes here
+	this->fire = true;
 }
 
 void RemotePlayerAI::sendState(float axis_x, float axis_y, bool fire)
@@ -41,5 +44,5 @@ void RemotePlayerAI::sendGrid(PlayerData data)
 PlayerData RemotePlayerAI::getGrid()
 {
 	// TODO: 
-	return PlayerData();
+	return data;
 }

@@ -47,6 +47,13 @@ void Scene::sendGrid()
 	remotePlayer->sendGrid(p1Data);
 }
 
+void Scene::startGame()
+{
+	p2Data = remotePlayer->getGrid();
+	sendGrid();
+	loadScene(SCENE_GAME_OURGRID);
+}
+
 // Store Renderer pointer for Scene Changes. TODO: Possibly no more need for passing this all the time?
 void Scene::giveRenderer(SDL_Renderer * ren)
 {
@@ -196,13 +203,13 @@ void makeP2()
 	Scene::getScene().registerRender(grid);
 
 }
-
+*/
 void loadOurGrid(SDL_Renderer* ren)
 {
 	GameGrid* grid = new GameGrid(OUR_GRID, ren, "_OurGrid");
 
 	Scene::getScene().registerRender(grid);
-}*/
+}
 
 /*void Scene::turnover(int winner)
 {
@@ -262,7 +269,7 @@ void Scene::changeScene()
 		break;
 	case SCENE_GAME_OURGRID:
 		cleanup();
-		//loadOurGrid(renderer);
+		loadOurGrid(renderer);
 		break;
 	case SCENE_GAME_THEIRGRID:
 		cleanup();

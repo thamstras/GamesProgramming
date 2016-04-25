@@ -23,6 +23,11 @@ public:
 	void render(SDL_Renderer* ren);
 
 private:
+	void buildGrid(bool local);
+	void placeOnGrid(int X, int Y, int size, int direction, int s);
+	void closeGrid(int X, int Y, int s);
+	SDL_Renderer* renderer;
+
 	PlayerData playerData1;
 	PlayerData playerData2;
 
@@ -34,6 +39,6 @@ private:
 	Ball* theirDBall;
 
 	Ship** ships;
-	std::vector<StaticSprite> shotSrpites;
+	std::vector<StaticSprite*> shotSrpites;
 	int* gridData;
 };
