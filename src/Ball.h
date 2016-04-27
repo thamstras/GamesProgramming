@@ -20,7 +20,7 @@ public:
 	StaticSprite* sprite;
 	void enable();
 	void disable();
-	void moveDelta(int deltaX, int deltaY);
+	void move(int x, int y);
 private:
 	bool enabled;
 	glm::dvec2 _position;

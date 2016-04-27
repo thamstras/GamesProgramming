@@ -1,8 +1,7 @@
 #include "SwapSprite.h"
 
-SwapSprite::SwapSprite(std::string imagePath1, std::string imagePath2, SDL_Renderer * ren, std::string id)
+SwapSprite::SwapSprite(std::string imagePath1, std::string imagePath2, SDL_Renderer * ren, std::string id) : RenderObject(id)
 {
-	this->id = id;
 	spriteA = new StaticSprite(imagePath1, ren, this->id + "_A");
 	spriteB = new StaticSprite(imagePath2, ren, this->id + "_B");
 }

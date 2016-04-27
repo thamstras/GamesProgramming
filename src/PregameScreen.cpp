@@ -8,9 +8,8 @@ void transitToGame()
 	Scene::getScene().startGame();
 }
 
-PregameScreen::PregameScreen(SDL_Renderer * ren, std::string id)
+PregameScreen::PregameScreen(SDL_Renderer * ren, std::string id) : RenderObject(id)
 {
-	this->id = id;
 
 	Scene& scene = Scene::getScene();
 	
@@ -50,7 +49,7 @@ PregameScreen::PregameScreen(SDL_Renderer * ren, std::string id)
 	scene.registerRender(ship3);
 	scene.registerRender(ship2);
 	scene.registerRender(ship1);
-	scene.registerRender(select);
+	//scene.registerRender(select);
 
 	scene.registerRender(doneButton);
 }

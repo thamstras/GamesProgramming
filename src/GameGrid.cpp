@@ -19,18 +19,23 @@ ShipData * zSortShips(ShipData * ships)
 	return output;
 }
 
-GameGrid::GameGrid(GridTypes gridType, SDL_Renderer * ren, std::string id)
+GameGrid::GameGrid(GridTypes gridType, SDL_Renderer * ren, std::string id) : RenderObject(id)
 {
 	this->renderer = ren;
 	// Setup Grid
-	this->id = id;
-	type = gridType;
+	type = OUR_GRID;
 	gridData = new int[100];
 	ships = new Ship*[6];
 	
 	// Load Player Data
 	playerData1 = Scene::getScene().p1Data;
 	playerData2 = Scene::getScene().p2Data;
+
+	p1Hits = 0;
+	p2Hits = 0;
+
+	p1ShotData = ShotData();
+	p2ShotData = ShotData();
 
 	// Draw Local Ships
 	ShipData * shipsData = zSortShips(playerData1.ships);
@@ -41,29 +46,26 @@ GameGrid::GameGrid(GridTypes gridType, SDL_Renderer * ren, std::string id)
 	}
 
 	// Prep Balls
-	ourABall = new Ball(ren, glm::vec2(650, 50), glm::vec2(0, 0), 100, this->id + "_ourABall");
-	ourABall->bindPlayer(1);
-	ourDBall = new Ball(ren, glm::vec2(50, 50), glm::vec2(0, 0), 100, this->id + "_ourDBall");
-	ourDBall->bindPlayer(1);
+	ourBall = new Ball(ren, glm::vec2(50, 50), glm::vec2(0, 0), 100, this->id + "_ourABall");
+	ourBall->bindPlayer(1);
 
-	theirABall = new Ball(ren, glm::vec2(50, 50), glm::vec2(0, 0), 100, this->id + "_thierABall");
-	theirABall->bindPlayer(2);
-	theirDBall = new Ball(ren, glm::vec2(650, 50), glm::vec2(0, 0), 100, this->id + "_theirDBall");
-	theirDBall->bindPlayer(2);
+	theirBall = new Ball(ren, glm::vec2(50, 50), glm::vec2(0, 0), 100, this->id + "_thierABall");
+	theirBall->bindPlayer(2);
+
+	ourBall->move(550, 550); // Defending position
+	theirBall->move(50, 50); // Attacking position
 
 	// register all renders
 	for (int s = 0; s < 6; s++)
 	{
 		Scene::getScene().registerRender(ships[s]);
 	}
-	Scene::getScene().registerRender(ourABall);
-	Scene::getScene().registerRender(ourDBall);
-	Scene::getScene().registerRender(theirABall);
-	Scene::getScene().registerRender(theirDBall);
+	Scene::getScene().registerRender(ourBall);
+	Scene::getScene().registerRender(theirBall);
 
-	// If HOST, no more to do.
-	// IF CLIENT, Switch to THIER_GRID.
-	if (!(Scene::getScene().isServer))
+	// If HOST, Switch Grid.
+	// IF CLIENT, dont.
+	if (Scene::getScene().isServer)
 		swapGrid();
 
 }
@@ -74,57 +76,52 @@ GameGrid::~GameGrid()
 
 void GameGrid::swapGrid()
 {
+	std::cout << "SwapGrid()" << std::endl;
 	if (type == OUR_GRID)
 	{
 		type = THEIR_GRID;
 		for (int i = 0; i < 6; i++)
 		{
-			// TODO: 
-			//ships[i]->moveShip(ships[i]->getXPos() - 600, ships[i].getYPos());
+			ships[i]->deltaShip(-1000, 0);
 		}
 		for each (auto shot in shotSrpites)
 		{
-			shot->moveSprite(shot->getXPos() - 600, shot->getYPos());
+			shot->moveSprite(shot->getXPos() - 1000, shot->getYPos());
 		}
-		ourDBall->disable();
-		ourDBall->moveDelta(-600, 0);
-		theirABall->disable();
-		theirABall->moveDelta(-600, 0);
-		ourABall->enable();
-		ourABall->moveDelta(-600, 0);
-		theirDBall->enable();
-		theirDBall->moveDelta(-600, 0);
+		ourBall->move(550, 550);
+		theirBall->move(50, 50);
 	}
 	else {
 		type = OUR_GRID;
 		for (int i = 0; i < 6; i++)
 		{
-			// TODO:
-			//ships[i]->moveShip(ships[i]->getXPos() + 600, ships[i].getYPos());
+			ships[i]->deltaShip(1000, 0);
 		}
 		for each (auto shot in shotSrpites)
 		{
-			shot->moveSprite(shot->getXPos() + 600, shot->getYPos());
+			shot->moveSprite(shot->getXPos() + 1000, shot->getYPos());
 		}
-		ourDBall->enable();
-		ourDBall->moveDelta(600, 0);
-		theirABall->enable();
-		theirABall->moveDelta(600, 0);
-		ourABall->disable();
-		ourABall->moveDelta(600, 0);
-		theirDBall->disable();
-		theirDBall->moveDelta(600, 0);
+		ourBall->move(50, 50);
+		theirBall->move(550, 550);
 	}
 }
 
 void GameGrid::update(double simLength)
 {
+	Scene::getScene().p1PosX = ourBall->phys->_position.x;
+	Scene::getScene().p1PosY = ourBall->phys->_position.y;
+	Scene::getScene().p2PosX = theirBall->phys->_position.x;
+	Scene::getScene().p2PosY = theirBall->phys->_position.y;
+	if (type == OUR_GRID)
+		Scene::getScene().ourTurn = false;
+	else
+		Scene::getScene().ourTurn = true;
 	if (type == OUR_GRID)
 	{
 		if (Scene::getScene().p2Fire)
 		{
-			int droneX = theirABall->sprite->getXPos();
-			int droneY = theirABall->sprite->getYPos();
+			int droneX = theirBall->sprite->getXPos();
+			int droneY = theirBall->sprite->getYPos();
 			int gridX = droneX / Scene::getScene().gridWidth;
 			int gridY = droneY / Scene::getScene().gridHeight;
 			int grid = gridY * 10 + gridX;
@@ -165,7 +162,31 @@ void GameGrid::update(double simLength)
 			}
 			if (hit)
 			{
-				ship->hit(gridX, gridY);
+				std::cout << "P2 hit!" << std::endl;
+				//ship->hit(gridX, gridY);
+				if (p2ShotData.getState(gridX, gridY) != 0)
+				{
+					p2Hits++;
+					p2ShotData.addHit(gridX, gridY);
+				}
+				Scene::getScene().lastShotHit = true;
+				if (p2Hits >= maxHits)
+				{
+					Scene::getScene().loadScene(SCENE_P2_WIN);
+				}
+				StaticSprite* shot = new StaticSprite("hitshot", renderer, this->id + "_shot");
+				shot->moveSprite(gridX * 60, gridY * 60);
+				Scene::getScene().registerRender(shot);
+				shotSrpites.push_back(shot);
+			}
+			else {
+				p2ShotData.addMiss(gridX, gridY);
+				std::cout << "P2 Missed!" << std::endl;
+				Scene::getScene().lastShotHit = false;
+				StaticSprite* shot = new StaticSprite("missshot", renderer, this->id + "_shot");
+				shot->moveSprite(gridX * 60, gridY * 60);
+				Scene::getScene().registerRender(shot);
+				shotSrpites.push_back(shot);
 			}
 			swapGrid();
 
@@ -174,35 +195,44 @@ void GameGrid::update(double simLength)
 	else {
 		if (Scene::getScene().p1Fire)
 		{
-			// TODO: P2 Hit Handling
-			///*
-			int droneX = theirABall->sprite->getXPos();
-			int droneY = theirABall->sprite->getYPos();
+			int droneX = ourBall->sprite->getXPos() + 30;
+			int droneY = ourBall->sprite->getYPos() + 30;
 			int gridX = droneX / Scene::getScene().gridWidth;
 			int gridY = droneY / Scene::getScene().gridHeight;
 			int grid = gridY * 10 + gridX;
 			bool hit = false;
 			buildGrid(false);
-			if (gridData[grid] != 0)
-				hit = true;
+			if (gridData[grid] != 0) 
+				hit = true; //wtf is this for?
 			if (hit)
 			{
-				Scene::getScene().p1Data.shotData.addHit(gridX, gridY);
+				if (p1ShotData.getState(gridX, gridY) == 0)
+				{
+					p1Hits++;
+					p1ShotData.addHit(gridX, gridY);
+				}
+				if (p1Hits >= maxHits)
+				{
+					Scene::getScene().loadScene(SCENE_P1_WIN);
+				}
+				std::cout << "P1 hit something!" << std::endl;
 				StaticSprite* shot = new StaticSprite("hitshot", renderer, this->id + "_shot");
 				shot->moveSprite(gridX * 60, gridY * 60);
+				Scene::getScene().registerRender(shot);
 				shotSrpites.push_back(shot);
 				swapGrid();
 				return;
 			}
 			else {
-				Scene::getScene().p1Data.shotData.addMiss(gridX, gridY);
+				p1ShotData.addMiss(gridX, gridY);
+				std::cout << "P1 missed!" << std::endl;
 				StaticSprite* shot = new StaticSprite("missshot", renderer, this->id + "_shot");
 				shot->moveSprite(gridX * 60, gridY * 60);
+				Scene::getScene().registerRender(shot);
 				shotSrpites.push_back(shot);
 				swapGrid();
 				return;
 			}
-			//*/
 		}
 	}
 }
@@ -252,6 +282,6 @@ void GameGrid::buildGrid(bool local)
 	ShipData* shipData = data.ships;
 	for (int s = 0; s < 6; s++)
 	{
-		placeOnGrid(shipData[s].x, shipData[s].y, shipData[s].size, shipData[s].dir, s);
+		placeOnGrid(shipData[s].x, shipData[s].y, shipData[s].size, shipData[s].dir, s+1);
 	}
 }

@@ -24,14 +24,8 @@ struct ShipData
 	int x;
 	int y;
 	int dir;
-	/*bool destroyed = false;
-	bool d1 = false;
-	bool d2 = false;
-	bool d3 = false;
-	bool d4 = false;
-	bool d5 = false;*/
-
 };
+
 
 class ShotData
 {
@@ -49,11 +43,23 @@ public:
 	{
 		if (this != &other)
 		{
+			this->data = new int[100];
 			for (int i = 0; i < 100; i++)
 			{
 				this->data[i] = other.data[i];
 			}
 		}
+	}
+	ShotData& operator=(const ShotData& rhs)
+	{
+		if (this != &rhs)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				this->data[i] = rhs.data[i];
+			}
+		}
+		return *this;
 	}
 	~ShotData()
 	{
@@ -88,25 +94,42 @@ public:
 	}
 };
 
+
 struct PlayerData
 {
 	ShipData* ships;
-	ShotData shotData;
 	PlayerData()
 	{
 		ships = new ShipData[6];
+		for (int i = 0; i < 6; i++)
+		{
+			ships[i] = { 0, 0, 0, 0 };
+		}
 	}
 
 	PlayerData(const PlayerData& other)
 	{
-		if (this != &other)
+		ships = new ShipData[6];
+		for (int i = 0; i < 6; i++)
 		{
-			ships = new ShipData[6];
+			ships[i] = { 0, 0, 0, 0 };
+		}
+		for (int i = 0; i < 6; i++)
+		{
+			this->ships[i] = other.ships[i];
+		}
+	}
+
+	PlayerData& operator=(const PlayerData& rhs)
+	{
+		if (this != &rhs)
+		{
 			for (int i = 0; i < 6; i++)
 			{
-				this->ships[i] = other.ships[i];
+				this->ships[i] = rhs.ships[i];
 			}
 		}
+		return *this;
 	}
 
 	~PlayerData()

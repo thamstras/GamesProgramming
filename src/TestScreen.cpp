@@ -1,8 +1,7 @@
 #include "TestScreen.h"
 
-TestScreen::TestScreen(SDL_Renderer* ren, std::string id)
+TestScreen::TestScreen(SDL_Renderer* ren, std::string id) : RenderObject(id)
 {
-	this->id = id;
 	std::cout << "Making TestScene" << std::endl;
 
 	std::string manPath = "p1_spritesheet";

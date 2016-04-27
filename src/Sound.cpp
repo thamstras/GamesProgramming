@@ -47,6 +47,14 @@ void Sound::loadSounds()
 	}*/
 }
 
+void Sound::cleanup()
+{
+	for (auto sound : chunkMap)
+	{
+		Mix_FreeChunk(sound.second);
+	}
+}
+
 int Sound::loadSound(std::string path, std::string name)
 {
 	Mix_Chunk* sound = Mix_LoadWAV(path.c_str());

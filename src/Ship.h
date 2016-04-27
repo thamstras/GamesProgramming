@@ -13,6 +13,8 @@ public:
 	void update(double simLength);
 	void render(SDL_Renderer* ren);
 
+	void deltaShip(int deltaX, int deltaY);
+
 	bool hit(int X, int Y);
 	bool destroyed;
 private:

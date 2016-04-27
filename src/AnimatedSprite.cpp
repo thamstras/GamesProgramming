@@ -2,7 +2,11 @@
 
 AnimatedSprite::AnimatedSprite(std::string imagePath, SDL_Renderer* ren, std::string id) : StaticSprite( imagePath, ren, id)
 {
-	// Just calls parent constructor. Animated Sprite's special stuff is done in other functions
+	_frameRate = -1;
+	_currAnim = -1;
+	_animFrame = -1;
+	_currFrame = -1;
+	_animTime = -1;
 }
 
 AnimatedSprite::AnimatedSprite(const AnimatedSprite& other) : StaticSprite(other)
@@ -14,6 +18,7 @@ AnimatedSprite::AnimatedSprite(const AnimatedSprite& other) : StaticSprite(other
 	this->_currFrame = other._currFrame;
 	this->_frameList = other._frameList;
 	this->_animList = other._animList;
+	this->_animTime = other._animTime;
 }
 
 AnimatedSprite& AnimatedSprite::operator=(const AnimatedSprite& other)
@@ -28,6 +33,7 @@ AnimatedSprite& AnimatedSprite::operator=(const AnimatedSprite& other)
 		this->_currFrame = other._currFrame;
 		this->_frameList = other._frameList;
 		this->_animList = other._animList;
+		this->_animTime = other._animTime;
 	}
 	return *this;
 }
@@ -35,7 +41,7 @@ AnimatedSprite& AnimatedSprite::operator=(const AnimatedSprite& other)
 AnimatedSprite::~AnimatedSprite()
 {
 	std::cout << "Destroying " << id << std::endl;
-	SDL_DestroyTexture(this->_tex); //Done by StaticSprite
+	//SDL_DestroyTexture(this->_tex); //Done by StaticSprite
 }
 
 void AnimatedSprite::update(double simLength)

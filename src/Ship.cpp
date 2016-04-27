@@ -1,8 +1,7 @@
 #include "Ship.h"
 
-Ship::Ship(SDL_Renderer* ren, std::string id, int X, int Y, int type, int dir, int n, int p)
+Ship::Ship(SDL_Renderer* ren, std::string id, int X, int Y, int type, int dir, int n, int p) : RenderObject(id)
 {
-	this->id = id;
 	this->n = n;
 	this->p = p;
 	top = Y;
@@ -50,6 +49,8 @@ Ship::Ship(SDL_Renderer* ren, std::string id, int X, int Y, int type, int dir, i
 		bottom = Y + length;
 		right = X;
 	}
+	sprite->moveSprite(X*60, Y*60);
+	Scene::getScene().registerRender(sprite);
 
 	// TODO: Load Destruction
 
@@ -66,6 +67,12 @@ void Ship::update(double simLength)
 
 void Ship::render(SDL_Renderer * ren)
 {
+}
+
+void Ship::deltaShip(int deltaX, int deltaY)
+{
+	sprite->moveSprite(sprite->getX() + deltaX, sprite->getY() + deltaY);
+	// TODO: This is a likely source of bugs.
 }
 
 bool Ship::hit(int X, int Y)

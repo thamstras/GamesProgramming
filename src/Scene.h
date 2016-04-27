@@ -15,15 +15,23 @@ enum SceneList
 {
 	SCENE_MENU, SCENE_TITLE, SCENE_INSTRUCTIONS, SCENE_PREGAME,
 	SCENE_GAME_OURGRID, SCENE_GAME_THEIRGRID,
-	SCENE_TEST_SCENE
+	SCENE_P1_WIN, SCENE_P2_WIN,
+	SCENE_TEST_SCENE,
+	SCENE_QUIT
 };
 
 class Scene
 {
 public:
 	static Scene& getScene();
+	
 	std::vector<PhysObj *> PhysList;
 	std::vector<RenderObject *> RenderList;
+
+	std::vector<PhysObj *> PhysObjBuffer;
+	std::vector<RenderObject *> RenderObjBuffer;
+	bool listsLocked = false;
+
 	std::map<std::string, std::string> SceneData;
 	
 	WorldBounds bounds = { 0, 0, 600, 600 };
@@ -47,6 +55,12 @@ public:
 	float p2_axis_X = 0.0f;
 	float p2_axis_Y = 0.0f;
 
+	int p1PosX = 0;
+	int p1PosY = 0;
+	int p2PosX = 0;
+	int p2PosY = 0;
+	bool ourTurn = false;
+	bool lastShotHit = false;
 	PlayerData p1Data;
 	PlayerData p2Data;
 
@@ -56,6 +70,7 @@ public:
 	bool p2Fire;
 
 	bool isServer = true;
+	bool quitting = false;
 	RemotePlayer * remotePlayer;
 	void sendGrid();
 	void startGame();

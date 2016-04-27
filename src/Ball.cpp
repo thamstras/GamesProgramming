@@ -2,10 +2,9 @@
 
 #include <iostream>
 
-Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel, double mass, std::string id)
+Ball::Ball(SDL_Renderer* ren, glm::vec2 pos, glm::vec2 vel, double mass, std::string id) : RenderObject(id)
 {
 	std::cout << "Ball::Ball(SDL_Renderer* ren) Called" << std::endl;
-	this->id = id;
 	phys = new DronePhys();
 	sprite = new StaticSprite("ball", ren, this->id + "_sprite");
 	phys->mass = 1.0f;
@@ -61,21 +60,24 @@ void Ball::bindPlayer(int p)
 
 void Ball::enable()
 {
-	this->enabled = true;
-	this->phys->enabled = true;
+	//this->enabled = true;
+	//this->phys->enabled = true;
 }
 
 void Ball::disable()
 {
-	this->enabled = false;
-	this->phys->enabled = false;
+	//this->enabled = false;
+	//this->phys->enabled = false;
 }
 
-void Ball::moveDelta(int deltaX, int deltaY)
+void Ball::move(int x, int y)
 {
-	phys->_position.x += deltaX;
-	phys->_position.y += deltaY;
-	_position.x += deltaX;
-	_position.y += deltaY;
-	sprite->moveSprite(_position.x, _position.y);
+	_position.x = x;
+	_position.y = y;
+	phys->_position.x = x;
+	phys->_position.y = y;
+	phys->_velocity.x = 0;
+	phys->_velocity.y = 0;
+	auto radius = phys->radius;
+	sprite->moveSprite((int)(_position.x - radius), (int)(_position.y - radius));
 }

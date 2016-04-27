@@ -5,7 +5,7 @@
 class RenderObject
 {
 public:
-	RenderObject();
+	RenderObject(std::string id);
 	virtual ~RenderObject();
 	virtual void update(double simLength) = 0;
 	virtual void render(SDL_Renderer* ren) = 0;

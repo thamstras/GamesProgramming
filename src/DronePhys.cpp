@@ -42,21 +42,18 @@ void DronePhys::preStep()
 
 void DronePhys::tickPhysics(double simLength)
 {
-	if (!enabled)
-		return;
-
 	if (simLength > 0.5f || simLength < 0.000001f)
 	{
 		return;
 	}
-
 
 	std::vector<PhysObj *> physList = Scene::getScene().PhysList;
 	for (auto const& other : physList)
 	{
 		if (other == this)
 			continue;
-
+		if (other->enabled == false)
+			continue;
 		DronePhys* otherDrone = dynamic_cast<DronePhys*>(other);
 		if (otherDrone != 0)
 		{
@@ -110,7 +107,7 @@ void DronePhys::tickPhysics(double simLength)
 
 	if (inputAxisX == 0.0f && inputAxisY == 0.0f) //If no input, slow down by the square of velocity
 	{	
-		//glm::dvec2 airResistForce = (_velocity * _velocity) * - airResist; //tODO use the magnitude squared for the magnitude, and the normalised vector for the direction
+		//glm::dvec2 airResistForce = (_velocity * _velocity) * - airResist; // TODO: use the magnitude squared for the magnitude, and the normalised vector for the direction
 		/*glm::dvec2 airResistDirec = glm::normalize(_velocity);
 		double airResistMag = glm::length(_velocity) * glm::length(_velocity) * -1 * airResist;
 		glm::dvec2 airResistForce = airResistDirec * airResistMag;
@@ -125,7 +122,7 @@ void DronePhys::tickPhysics(double simLength)
 	_newVelocity = _velocity + overallDeltaV;
 	_newPosition = _position + (_newVelocity * simLength);
 
-	std::cout <<"\r"<< _newVelocity.x << "\t" << _newVelocity.y << "\t" << inputAxisX << "\t" << inputAxisY;
+	//std::cout <<"\r"<< _newVelocity.x << "\t" << _newVelocity.y << "\t" << inputAxisX << "\t" << inputAxisY;
 }
 
 void DronePhys::postStep()

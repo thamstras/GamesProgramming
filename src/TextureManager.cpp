@@ -41,9 +41,17 @@ void TextureManager::loadTextureList(SDL_Renderer * ren)
 	}
 }
 
+void TextureManager::cleanup()
+{
+	for (auto tex : textureMap)
+	{
+		SDL_DestroyTexture(tex.second);
+	}
+}
+
 SDL_Texture * TextureManager::getTexture(std::string name)
 {
-	SDL_Texture * tex;
+	SDL_Texture * tex = nullptr;
 	try
 	{
 		tex = textureMap.at(name);

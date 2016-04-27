@@ -15,6 +15,8 @@ public:
 	void initSound();
 	void loadSounds();
 
+	void cleanup();
+
 	int loadSound(std::string path, std::string name);
 	int playSound(std::string name);
 

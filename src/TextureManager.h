@@ -15,6 +15,8 @@ public:
 	void initTextures();
 	void loadTextureList(SDL_Renderer * ren);
 
+	void cleanup();
+
 	SDL_Texture * getTexture(std::string name);
 
 private:

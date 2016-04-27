@@ -33,10 +33,15 @@ private:
 
 	GridTypes type;
 
-	Ball* ourABall;
-	Ball* ourDBall;
-	Ball* theirABall;
-	Ball* theirDBall;
+	Ball* ourBall;
+	Ball* theirBall;
+
+	ShotData p1ShotData;
+	ShotData p2ShotData;
+
+	int p1Hits;
+	int p2Hits;
+	int maxHits = 19;
 
 	Ship** ships;
 	std::vector<StaticSprite*> shotSrpites;

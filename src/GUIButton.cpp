@@ -1,8 +1,7 @@
 #include "GUIButton.h"
 
-GUIButton::GUIButton(SDL_Renderer* ren, std::string buttonText, int x, int y, void callback(), std::string ID)
+GUIButton::GUIButton(SDL_Renderer* ren, std::string buttonText, int x, int y, void callback(), std::string ID) : RenderObject(ID)
 {
-	this->id = ID;
 	onClick = callback;
 
 	_x = x;

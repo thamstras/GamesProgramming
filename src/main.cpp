@@ -64,6 +64,8 @@ void cleanExit(int returnValue)
 {
 
 	Scene::getScene().cleanup();
+	Scene::getScene().sound->cleanup();
+	Scene::getScene().textures->cleanup();
 
 	/*if (music != NULL)
 		Mix_FreeMusic(music);
@@ -243,7 +245,7 @@ void handleInput()
 				switch (event.key.keysym.sym)
 				{
 					//hit escape to exit
-				case SDLK_ESCAPE: done = true; break;
+				case SDLK_ESCAPE: Scene::getScene().loadScene(SCENE_MENU); break;
 				case SDLK_SPACE: key = true; break;
 				case SDLK_r: clearSprites = true; break;
 
@@ -363,8 +365,8 @@ int main( int argc, char* args[] )
 	Scene::getScene().textures->loadTextureList(ren);
 
 	Scene::getScene().giveRenderer(ren);
-	Scene::getScene().loadScene(SCENE_PREGAME);
-	//Scene::getScene().loadScene(SCENE_MENU);
+	//Scene::getScene().loadScene(SCENE_P1_WIN);
+	Scene::getScene().loadScene(SCENE_MENU);
 
 	while (!done) //loop until done flag is set)
 	{
@@ -379,6 +381,8 @@ int main( int argc, char* args[] )
 
 		//SDL_Delay(20); // unless vsync is on??
 		lastFrameStart = frameStart;
+		if (Scene::getScene().quitting)
+			done = true;
 	}
 
 	cleanExit(0);

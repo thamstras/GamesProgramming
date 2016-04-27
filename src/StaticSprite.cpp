@@ -1,8 +1,7 @@
 #include "StaticSprite.h"
 
-StaticSprite::StaticSprite(std::string imagePath, SDL_Renderer* ren, std::string id)
+StaticSprite::StaticSprite(std::string imagePath, SDL_Renderer* ren, std::string id) : RenderObject(id)
 {
-	this->id = id;
 	int * w = new int;
 	int * h = new int;
 	
@@ -21,7 +20,7 @@ StaticSprite::StaticSprite(std::string imagePath, SDL_Renderer* ren, std::string
 	delete h;
 }
 
-StaticSprite::StaticSprite(const StaticSprite & other)
+StaticSprite::StaticSprite(const StaticSprite & other) : RenderObject(other)
 {
 	this->_x = other._x;
 	this->_y = other._y;
@@ -35,7 +34,7 @@ StaticSprite::StaticSprite(const StaticSprite & other)
 StaticSprite::~StaticSprite()
 {
 	std::cout << "Destroying " << id << std::endl;
-	SDL_DestroyTexture(this->_tex);
+	//SDL_DestroyTexture(this->_tex);
 }
 
 StaticSprite & StaticSprite::operator=(const StaticSprite & other)

@@ -9,8 +9,9 @@ public:
 	virtual bool connect() = 0;
 	virtual bool getReady() = 0;
 	virtual void update() = 0;
-	virtual void sendState(float axis_x, float axis_y, bool fire) = 0;
+	virtual void sendState(float axis_x, float axis_y, bool fire, bool hostTurn, bool lastShotHit) = 0;
 	virtual void sendGrid(PlayerData data) = 0;
+	virtual void sendPhys(float hostX, float hostY, float clientX, float clientY) = 0;
 	virtual PlayerData getGrid() = 0;
 
 	float axis_X;
